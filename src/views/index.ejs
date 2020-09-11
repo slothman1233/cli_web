@@ -1,0 +1,51 @@
+<%- include('wuc/header', { title: '微博 - 首页', isNav: true, list: true, isInputBlog: true })%>
+
+<script src="/script/a.js"></script>
+<link href="/style/a.css" rel="stylesheet">
+
+<div>
+    index页面
+
+    <div id="tt"></div>
+
+    <%= title%>
+      <div> 文本内容 </div>
+    <%= name%>
+      <div> html内容 </div>
+    <%=html%>
+
+    <!-- html的渲染 -->
+    <%- html%>
+
+    <!-- locals 可以为null的情况 -->
+    <div> if判断 </div>
+    <% if( locals.isMe ) { %>
+    <%= title %>
+    <% } else { %>
+    234324
+    <% } %>
+
+  <div>  get请求数据</div>
+  <div>  <%= httpget %></div>
+
+    
+  <div>  post请求数据</div>
+  <div>  <%- respost %></div>
+
+    <!-- 循环 -->
+     <div> 循环 </div>
+    <% data.forEach(item => {%>
+    <div> <%= item.a %> </div>
+    <div> <%= item.b %> </div>
+    <div> <%= item.c %> </div>
+
+    <% }) %>
+
+
+
+    <div> <%= locals.resget %> </div>
+
+</div>
+
+
+<%- include('wuc/footer')%>

@@ -54,7 +54,7 @@ COPY --from=builddist /web/dist ./
 
 
 # 暴露端口映射
-# EXPOSE 3000
+EXPOSE 2000
 ENTRYPOINT ["npm", "run","docker"]
 
 

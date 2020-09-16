@@ -6,6 +6,8 @@
 
 const ENV = process.env.NODE_ENV
 
+const ISDOCKER = process.env.DOCKER
+
 //开发环境
 export const isDev = ENV === 'dev'
 export const notDev = ENV !== 'dev'
@@ -24,3 +26,7 @@ export const notGa = ENV !== 'ga'
 //单元测试环境
 export const isJest = ENV === 'jest'
 export const noJest = ENV !== 'jest'
+
+//是否是docker
+export const isDocker = ISDOCKER === 'docker'
+export const notDocker = ISDOCKER !== 'docker'

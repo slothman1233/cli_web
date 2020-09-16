@@ -33,25 +33,9 @@ export default class Common {
 
     @get('/')
     async home(ctx: Context) {
-        const res = await http.get('http://localhost:3000/api/test/test', { type: 2 })
-
-        log.log(JSON.stringify(res))
 
 
-        const respost: any = await http.post({ path: '/api/test/testpost', hostname: 'localhost', port: 3000 }, { type: 1111, name: 'sdfdf', age: 55 })
-
-
-        log.log(JSON.stringify(respost))
-
-
-        await ctx.render('index', {
-            title: '1',
-            name: '2',
-            html: '<div>3</div>',
-            data: [{ a: 1, b: 2, c: 3 }, { a: 4, b: 5, c: 6 }],
-            httpget: JSON.stringify(res),
-            respost: JSON.stringify(respost)
-        })
+        await ctx.render('test')
 
     }
 

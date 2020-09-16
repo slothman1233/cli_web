@@ -4,7 +4,7 @@
  */
 
 import { Test1, Test } from '../db/sequelize/map'
-import log from '../common/utils/logger'
+import log from '../middleware/log4js/log'
 import { CreateOptions, UpdateOptions } from 'sequelize/types'
 
 

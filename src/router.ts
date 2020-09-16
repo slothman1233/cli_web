@@ -39,7 +39,6 @@ const addRouter = (router: Router) => {
             const ctr = new m()
             const RoutePath = ControllerPath + sprit(ActionPath)
             let methods: Array<any> = middlewares[name] || []
-            console.log(methods)
             router[method](RoutePath, middlewareFn(methods), ctr[name])
         })
 

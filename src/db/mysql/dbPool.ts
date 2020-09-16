@@ -4,7 +4,7 @@
  */
 import mysql, { Pool } from 'mysql'
 import config from '../../common/config/env'
-import log from '../../common/utils/logger'
+import log from '../../middleware/log4js/log'
 const dbConfig = config.mysql
 let pool: Pool = null
 
@@ -19,7 +19,7 @@ export const getConnection = (callback: Function) => {
     }
     pool.getConnection((err, connection) => {
         if (err || !connection) {
-            log.error(err)
+            log.log(`${err.message} , ${err.stack}`)
         } else {
             callback(connection)
         }

@@ -7,7 +7,7 @@ import path from 'path'
 import { Sequelize } from 'sequelize-typescript'
 import conf from '../../common/config/env'
 
-import log from '../../common/utils/logger'
+import log from '../../middleware/log4js/log'
 
 
 const dbConfig = conf.mysql
@@ -41,9 +41,9 @@ const config = {
     }
 }
 
-async function sequelizeInit(){
-    
-     
+async function sequelizeInit() {
+
+
     //创建与数据库的链接、初始化模型
     const sequelize = new Sequelize(config)
     //sequelize跟数据库对应的表进行连接
@@ -56,7 +56,7 @@ async function sequelizeInit(){
 
     })
         .catch(err => {
-            log.error('无法连接到数据库', err)
+            log.log(`无法连接到数据库${err}`)
         })
 
 }

@@ -6,24 +6,25 @@ const nodemon = require('gulp-nodemon')
 const tsProject = ts.createProject('tsconfig.json')
 const ENV = process.env.NODE_ENV
 
-function clean (cb) {
+function clean(cb) {
     return del(['dist'], cb)
 }
 
 // 输出 js 到 dist目录
-function toJs () {
+function toJs() {
     return src('src/**/*.ts')
         .pipe(tsProject())
         .pipe(dest('dist'))
 }
 
-function toPackage () {
-    return src(['package.json', 'package-lock.json', 'Dockerfile'])
+
+function tostaticfile() {
+    return src(['package.json', 'src/**/*.ejs'])
         .pipe(dest('dist'))
 }
 
 // nodemon 监控 ts 文件
-function runNodemon (done) {
+function runNodemon(done) {
     let stream = nodemon({
         inspect: true,
         script: 'src/bin/www.ts',
@@ -33,7 +34,7 @@ function runNodemon (done) {
         // done: done
         // tasks: ['build'],
     })
-    
+
     stream.on('restart', function () {
         console.log('nodemon启动成功!')
     }).on('crash', (e) => {
@@ -43,7 +44,7 @@ function runNodemon (done) {
     })
 }
 
-const build = series(clean, toJs, toPackage)
+const build = series(clean, toJs, tostaticfile)
 task('build', build)
 task('default', runNodemon)
 exports.build = build

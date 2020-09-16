@@ -1,18 +1,18 @@
 import { getPool } from './dbPool'
-import log from '../../common/utils/logger'
+import log from '../../middleware/log4js/log'
 import { queryCallback } from 'mysql'
 const pool = getPool()
 
 export const exportDao = (sql: string) => {
     return (...args: any[]): Promise<any> => new Promise((resolve, reject) => {
         log.log('====== execute sql ======')
-        log.log(sql, ...args)
+        log.log(`${sql} , ${args}`)
         const callback: queryCallback = (err, result) => {
-            if (err) {reject(err)}
-            else {resolve(result)}
+            if (err) { reject(err) }
+            else { resolve(result) }
         }
-        if (!sql) {pool.query(args.shift(), callback)}
-        else {pool.query(sql, ...args, callback)}
+        if (!sql) { pool.query(args.shift(), callback) }
+        else { pool.query(sql, ...args, callback) }
     })
 }
 
@@ -27,11 +27,11 @@ export const exportDao = (sql: string) => {
  */
 export const transaction = (list: any[]): Promise<any[]> => {
     return new Promise((resolve, reject) => {
-        if (!Array.isArray(list) || !list.length) {return reject('it needs a Array with sql')}
-        pool.getConnection((err:any, connection) => {
-            if (err) {return reject(err)}
+        if (!Array.isArray(list) || !list.length) { return reject('it needs a Array with sql') }
+        pool.getConnection((err: any, connection) => {
+            if (err) { return reject(err) }
             connection.beginTransaction(err => {
-                if (err) {return reject(err)}
+                if (err) { return reject(err) }
                 log.log('============ begin execute transaction ============')
                 let rets: any[] = []
                 return (function dispatch(i) {
@@ -60,8 +60,8 @@ export const transaction = (list: any[]): Promise<any[]> => {
                             rets.push(ret)
                             dispatch(i + 1)
                         }
-                        if (typeof args === 'string') {connection.query(args, callback)}
-                        else {connection.query(args.shift(), ...args, callback)}
+                        if (typeof args === 'string') { connection.query(args, callback) }
+                        else { connection.query(args.shift(), ...args, callback) }
                     }
                 })(0)
             })

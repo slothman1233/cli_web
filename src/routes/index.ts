@@ -2,7 +2,7 @@
 import { Context } from 'koa'
 import { test_middleware, test_2 } from '../middleware/test'
 import { Controller, get, middlewares } from '../common/decorator/httpMethod'
-import * as http from '../common/utils/net'
+import http from '../common/utils/net'
 import log from '../middleware/log4js/log'
 
 
@@ -15,11 +15,8 @@ export default class Common {
     @middlewares([test_middleware, test_2, test_2, test_middleware])
     @get('/index')
     async index(ctx: Context) {
-        log.log(ctx.query)
-        const res = await http.get('http://localhost:3000/api/test/test', { type: 2 })
-
-        const respost: any = await http.post({ path: '/api/test/testpost', hostname: 'localhost', port: 3000 }, { type: 1111, name: 'sdfdf', age: 55 })
-
+        const res = await http.get<any>('http://www.fx110.uk/api/test/test?type=2', {unErrorMsg: true})
+        const respost = await http.post('http://localhost:3000/api/test/testpost', { type: 1111, name: 'sdfdf', age: 55 })
         await ctx.render('index', {
             title: '1',
             name: '2',

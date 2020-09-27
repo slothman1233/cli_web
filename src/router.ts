@@ -39,14 +39,27 @@ const addRouter = (router: Router) => {
             const ctr = new m()
             const RoutePath = ControllerPath + sprit(ActionPath)
             let methods: Array<any> = middlewares[name] || []
+            // console.log(RoutePath, methods, ctr[name])
             router[method](RoutePath, middlewareFn(methods), ctr[name])
         })
-
 
     })
 
 
 }
+
+// 404
+// app.use(async (ctx: Context) => {
+//     console.log(3425235345432)
+//     await ctx.render('error/404')
+// })
+
+// 错误处理
+// app.on('error', async (err, ctx) => {
+//     console.error('server error', err.message, err.stack)
+//     await ctx.render('error/error')
+// })
+
 
 /**
  * 中间件执行的插件
@@ -64,13 +77,16 @@ function middlewareFn(methods: Array<Function>) {
         try {
             await nextFn()
         } catch (err) {
-            log.error({ctx, error: err, resTime: 0})
-            await next()
+            log.error({ ctx, error: err, resTime: 0 })
+            //有路由但是没有匹配到相应的ejs模板
+            //跳转到404
+            await ctx.render('error/404')
         }
     }
 
     //递归执行方法
     async function nextFn() {
+
         if (fnAry.length === 0) {
             await next()
         } else {

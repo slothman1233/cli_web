@@ -32,7 +32,7 @@ export default class Common {
     async home(ctx: Context) {
 
 
-        await ctx.render('test11')
+        await ctx.render('test1')
 
     }
 

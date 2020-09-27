@@ -6,3 +6,4 @@ logs
 public/upload/**/*.*
 *.log
 .DS_Store
+coverage

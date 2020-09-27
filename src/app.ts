@@ -65,22 +65,22 @@ app.use(session({
 }, app))
 
 if (notTest) {
-// logger 日志
+    // logger 日志
     app.use(async (ctx: Context, next: Next) => {
-    //响应开始时间
+        //响应开始时间
         const start = Date.now()
         //响应间隔时间
-        let ms:number
+        let ms: number
         try {
-        //开始进入到下一个中间件
+            //开始进入到下一个中间件
             await next()
             //记录响应日志
             ms = Date.now() - start
             log.info(ctx, ms)
         } catch (error) {
-        //记录异常日志
+            //记录异常日志
             ms = Date.now() - start
-            log.error({ctx, error, resTime: ms})
+            log.error({ ctx, error, resTime: ms })
         }
 
         log.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
@@ -92,7 +92,7 @@ addRouter(router)
 app.use(router.routes()).use(router.allowedMethods())
 
 
-// 404
+
 app.use(async (ctx: Context) => {
     await ctx.render('error/404')
 })

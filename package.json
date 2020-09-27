@@ -2,7 +2,7 @@
     "name": "koa-ts",
     "version": "1.0.0",
     "description": "",
-    "main": "gulpfile .js",
+    "main": "gulpfile.js",
     "scripts": {
         "start": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon  --inspect=9230 src/bin/www.ts",
         "start:dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon --inspect=9230 src/bin/www.ts",

@@ -80,12 +80,13 @@ if (notTest) {
         } catch (error) {
         //记录异常日志
             ms = Date.now() - start
-            log.error(ctx, error, ms)
+            log.error({ctx, error, resTime: ms})
         }
 
         log.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
     })
 }
+
 //路由初始化
 addRouter(router)
 app.use(router.routes()).use(router.allowedMethods())

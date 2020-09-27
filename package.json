@@ -4,7 +4,7 @@
     "description": "",
     "main": "gulpfile .js",
     "scripts": {
-        "start": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon --inspect=9230 src/bin/www.ts",
+        "start": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon  --inspect=9230 src/bin/www.ts",
         "start:dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon --inspect=9230 src/bin/www.ts",
         "start:test": "cross-env NODE_ENV=test ./node_modules/.bin/nodemon --inspect=9230 src/bin/www.ts",
         "start:pre": "cross-env NODE_ENV=pre ./node_modules/.bin/nodemon --inspect=9230 src/bin/www.ts",
@@ -30,6 +30,7 @@
         "docker:ga": "cross-env NODE_ENV=ga DOCKER=docker PORT=80 node bin/www.js"
     },
     "dependencies": {
+        "@stl/request": "^1.1.1",
         "cross-env": "^7.0.2",
         "crypto": "^1.0.1",
         "debug": "^4.1.1",

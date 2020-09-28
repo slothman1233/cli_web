@@ -1,6 +1,7 @@
 import log4js from 'log4js'
 import path from 'path'
 import fs from 'fs'
+import log from './log'
 let basePath = path.resolve(__dirname, '../../../logs/log4js')
 
 let errorPath = basePath + '/errors/'
@@ -17,7 +18,7 @@ let logFileName = logPath + '/log'
 let confirmPath = function (pathStr: string) {
     if (!fs.existsSync(pathStr)) {
         fs.mkdirSync(pathStr)
-        console.log('createPath: ' + pathStr)
+        log.log('createPath: ' + pathStr)
     }
 }
 log4js.configure({

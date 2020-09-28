@@ -96,6 +96,7 @@ npm run docker  -----  在docker下运行
 │   │       ├── sync.ts   创建数据库表的方式 一般情况下直接先在数据库创建表  不推荐通过这个方式创建
 │   │       └── types.ts  sequelize 数据类型
 │   ├── middleware  中间件文件夹
+│   │   ├── httpservercache  文件缓存中间件
 │   │   ├── log4js  日志中间件
 │   │   └── test.ts   中间件示例
 │   ├── model  模型文件夹

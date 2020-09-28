@@ -19,10 +19,14 @@ import sequelizeInit from './db/sequelize/index'
 
 import log from './middleware/log4js/log'
 
+// import httpservercache from './middleware/httpservercache'
+
 const redisConf = config.redis
 const router = new koaRouter()
 const app = new koa()
 
+//缓存策略 有待优化
+// app.use(httpservercache)
 
 app.proxy = true
 app.use(bodyparser({
@@ -86,6 +90,8 @@ if (notTest) {
         log.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
     })
 }
+
+
 
 //路由初始化
 addRouter(router)

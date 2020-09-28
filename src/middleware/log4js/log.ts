@@ -21,15 +21,18 @@ const info = function (ctx: Context, resTime: number) {
 }
 
 const error = function ({ ctx, error, resTime }: { ctx?: Context, error: any, resTime?: number }) {
-    
+
     if (ctx && error) {
         errorLog.error(formatError(ctx, error, resTime))
-    }else{
+    } else {
         console.error(error)
     }
 }
 
-const _log = function (str: string): void {
+const _log = function (...arg: any[]): void {
+    if (!arg || arg.length === 0) {return}
+    const str = arg.join(',')
+
     try {
         if (!str) {
             debugLog.debug('null')

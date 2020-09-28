@@ -39,7 +39,8 @@ const addRouter = (router: Router) => {
             const ctr = new m()
             const RoutePath = ControllerPath + sprit(ActionPath)
             let methods: Array<any> = middlewares[name] || []
-            // console.log(RoutePath, methods, ctr[name])
+            
+            //log.log(RoutePath, methods, ctr[name])
             router[method](RoutePath, middlewareFn(methods), ctr[name])
         })
 
@@ -50,7 +51,7 @@ const addRouter = (router: Router) => {
 
 // 404
 // app.use(async (ctx: Context) => {
-//     console.log(3425235345432)
+//     log.log(3425235345432)
 //     await ctx.render('error/404')
 // })
 

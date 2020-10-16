@@ -19,8 +19,19 @@ function toJs() {
 
 
 function tostaticfile() {
-    return src(['package.json', 'src/**/*.ejs'])
+    return src(['package.json'])
         .pipe(dest('dist'))
+}
+
+function tostaticwwwroot(){
+    return src(['src/wwwroot/**/*'])
+        .pipe(dest('dist/wwwroot'))
+}
+
+
+function tostaticviews(){
+    return src(['src/views/**/*'])
+        .pipe(dest('dist/views'))
 }
 
 // nodemon 监控 ts 文件
@@ -44,7 +55,7 @@ function runNodemon(done) {
     })
 }
 
-const build = series(clean, toJs, tostaticfile)
+const build = series(clean, toJs, tostaticfile, tostaticwwwroot, tostaticviews)
 task('build', build)
 task('default', runNodemon)
 exports.build = build

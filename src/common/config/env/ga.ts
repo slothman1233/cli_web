@@ -20,4 +20,6 @@ export default {
         keys: [SESSION_SECRET_KEY]
     },
 
+    imgFilePath: 'https://img.fx110.uk/'
+
 }

@@ -20,6 +20,11 @@ export default {
         host: '127.0.0.1',
         port: 6379,
         keys: [SESSION_SECRET_KEY]
-    }
+    },
+
+
+
+
+    imgFilePath: 'https://img.fx110.uk/'
 
 }

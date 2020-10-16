@@ -26,6 +26,7 @@ const addRouter = (router: Router) => {
     })
     // 结合meta数据添加路由 和 验证
     modules.forEach(m => {
+
         let ControllerPath = Reflect.getMetadata(CONTROLLER_PATH_METADATA, m) || ''
         ControllerPath = ControllerPath !== '' ? sprit(ControllerPath) : ''
 
@@ -39,28 +40,16 @@ const addRouter = (router: Router) => {
             const ctr = new m()
             const RoutePath = ControllerPath + sprit(ActionPath)
             let methods: Array<any> = middlewares[name] || []
-            
-            //log.log(RoutePath, methods, ctr[name])
             router[method](RoutePath, middlewareFn(methods), ctr[name])
+
+          
+
         })
 
     })
 
 
 }
-
-// 404
-// app.use(async (ctx: Context) => {
-//     log.log(3425235345432)
-//     await ctx.render('error/404')
-// })
-
-// 错误处理
-// app.on('error', async (err, ctx) => {
-//     console.error('server error', err.message, err.stack)
-//     await ctx.render('error/error')
-// })
-
 
 /**
  * 中间件执行的插件

@@ -9,7 +9,7 @@ import test from './test'
 import pre from './pre'
 import ga from './ga'
 
-import { isTest, isPre, isGa } from '../../utils/env'
+import { isTest, isPre, isGa, isDocker } from '../../utils/env'
 
 import { env } from './env'
 
@@ -23,7 +23,7 @@ if (isTest) {
     config = test
 } else if (isPre) {
     config = pre
-} else if (isGa) {
+} else if (isGa || isDocker) {
     config = ga
 }
 

@@ -4,6 +4,7 @@ const del = require('del')
 const ts = require('gulp-typescript')
 const nodemon = require('gulp-nodemon')
 const tsProject = ts.createProject('tsconfig.json')
+const htmlreplace = require('gulp-replace')
 const ENV = process.env.NODE_ENV
 
 function clean(cb) {
@@ -34,6 +35,13 @@ function tostaticviews(){
         .pipe(dest('dist/views'))
 }
 
+//编译 pm2.conf.json 并且把运行的ts文件改成对应的js文件
+function tostaticpm2() {
+    return src(['pm2.conf.json'])
+        .pipe(htmlreplace('src/bin/www.ts', 'bin/www.js'))
+        .pipe(dest('dist'))
+}
+
 // nodemon 监控 ts 文件
 function runNodemon(done) {
     let stream = nodemon({
@@ -55,7 +63,7 @@ function runNodemon(done) {
     })
 }
 
-const build = series(clean, toJs, tostaticfile, tostaticwwwroot, tostaticviews)
+const build = series(clean, toJs, tostaticfile, tostaticwwwroot, tostaticviews, tostaticpm2)
 task('build', build)
 task('default', runNodemon)
 exports.build = build

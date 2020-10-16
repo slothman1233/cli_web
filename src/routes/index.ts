@@ -33,7 +33,6 @@ export default class Common {
 
     @get('/')
     async home(ctx: Context) {
-        console.log(666)
         await ctx.render('index', {
             title: '111'
         })
@@ -46,7 +45,6 @@ export default class Common {
      */
     @get('/html')
     async html(ctx: Context, next: Next) {
-        console.log(43234324234)
         const url = path.resolve(__dirname, '..', 'wwwroot', 'index.html')
 
         if(fs.pathExists(url)){

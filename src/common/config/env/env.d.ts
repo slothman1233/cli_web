@@ -52,7 +52,9 @@ type env = {
     /**
      * redis 配置
      */
-    redis: redis
+    redis: redis,
+
+    imgFilePath: string
 }
 
 export {

@@ -54,7 +54,7 @@ const formatReqLog = function (ctx: Context, resTime: number): string {
         return req.headers['x-forwarded-for'] ||
             req.connection.remoteAddress ||
             req.socket.remoteAddress ||
-            (<any>req.connection).socket.remoteAddress || ''
+            (<any>req.connection).socket?.remoteAddress || ''
     }
     let ip = getClientIp(ctx).match(/\d+.\d+.\d+.\d+/) || getClientIp(ctx)
 

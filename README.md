@@ -1,4 +1,4 @@
-# 基于 koa2+typescript+sequelize+log4js+seagger的web端框架
+# 基于 koa2+typescript+sequelize+nunjucks+log4js+seagger的web端框架
 
 附加说明
 ```bash
@@ -74,6 +74,10 @@ npm run docker  -----  在docker下运行
 │   │   │   └── constant.ts   全局常量文件
 │   │   ├── decorator  装饰器文件夹
 │   │   │   └── httpMethod.ts   路由装饰器
+│   │   ├── nunjucks  装饰器文件夹
+│   │   │   ├── constant.ts   全局静态配置
+│   │   │   ├── filter.ts   过滤器
+│   │   │   └── index.ts    编译html代码插件
 │   │   ├── type  全局的类型文件夹
 │   │   │   └── type.d.ts   类型文件包含一些  路由模型类型 中间件的模型 等全局需要用到的
 │   │   └── utils   工具文件夹
@@ -84,7 +88,7 @@ npm run docker  -----  在docker下运行
 │   │       └── util.ts   常用的工具
 │   ├── controller  用于处理逻辑的文件夹
 │   ├── db  用于跟数据库对接的文件
-│   │   └── mysql  使用mysql原生的方式对接数据库
+│   │   ├── mysql  使用mysql原生的方式对接数据库
 │   │   │   ├── dao   数据库语句组合的工具文件夹
 │   │   │   ├── dbHelper.ts   查询数据的组件
 │   │   │   └── dbPool.ts   连接数据的文件
@@ -98,12 +102,22 @@ npm run docker  -----  在docker下运行
 │   ├── middleware  中间件文件夹
 │   │   ├── httpservercache  文件缓存中间件
 │   │   ├── log4js  日志中间件
+│   │   ├── proxy  代理请求中间件
 │   │   └── test.ts   中间件示例
 │   ├── model  模型文件夹
 │   ├── routes  路由文件夹
 │   │   └── index.ts   路由的示例
 │   ├── services  服务文件夹(跟数据库打交道) 获取数据的
-│   ├── views  ejs模板文件夹
+│   ├── views  nunjucks模板文件夹
+│   │   ├── error  错误和404页面文件夹
+│   │   ├── shared  部分页和布局页文件夹
+│   │   │   ├── layout   布局页文件夹
+│   │   │   └── sharedView  部分页文件夹
+│   │   │       ├── call   nunjucks的call模板文件夹
+│   │   │       ├── macro   nunjucks的macro模板文件夹
+│   │   │       └── set  nunjucks的set模板文件夹
+│   │   ├── proxy  代理请求中间件
+│   │   └── test.ts   中间件示例
 │   ├── wwwroot  静态文件夹
 │   ├── app.ts  入口文件
 │   ├── router.ts  路由入口

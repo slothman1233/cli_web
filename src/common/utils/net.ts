@@ -24,7 +24,7 @@ const http = new HttpService('', {
     //默认的错误打印
     errorFn: (e: any) => {
         const { response, config, code } = e
-        debugger
+      
         log.error({error: `
 *************** error log start ***************
 error: ${e}

@@ -3,3 +3,4 @@ logs
 coverage
 typings
 dist
+src/views

@@ -20,10 +20,11 @@ const Controller = (path: string): ClassDecorator => {
  * @param {Array<MiddleWare>} arg 中间件数组
  * @return {MethodDecorator}  方法的装饰器
  */
-const middlewares = (arg:Array<MiddleWare>):MethodDecorator => {
+const middlewares = (arg: Array<MiddleWare>): MethodDecorator => {
     return (proto: Object, name: string | symbol, /* descriptor: TypedPropertyDescriptor<any>*/) => {
+
         const target = proto.constructor
-        let middlewares = Reflect.getMetadata(MIDDLEWARE, target)|| {}
+        let middlewares = Reflect.getMetadata(MIDDLEWARE, target) || {}
         middlewares[name] = arg
         Reflect.defineMetadata(MIDDLEWARE, middlewares, target)
     }
@@ -40,6 +41,7 @@ function createMethodDecorator(method: string) {
         return (proto: Object, name: string | symbol, /* descriptor: TypedPropertyDescriptor<any>*/) => {
             const taret = proto.constructor
             let actionObj: Array<RouteMeta> = Reflect.getMetadata(ROUTER_META, taret) || []
+      
             actionObj.push({ name, path, method })
             Reflect.defineMetadata(ROUTER_META, actionObj, taret)
 

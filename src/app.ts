@@ -7,9 +7,9 @@ import koaRouter from 'koa-router'
 import redisStore from 'koa-redis'
 import config from './common/config/env'
 // import log from './common/utils/logger'
-import { notTest } from './common/utils/env'
+import { isDev, notTest } from './common/utils/env'
 import addRouter from './router'
-
+import compress from 'koa-compress'
 import path from 'path'
 import koaStatic from 'koa-static'
 import views from 'koa-views'
@@ -17,16 +17,62 @@ import sequelizeInit from './db/sequelize/index'
 //sequelize 初始化 需要则恢复 需要在config里面配置
 // sequelizeInit()
 
+
 import nunjucksMiddleware from './common/utils/nunjucks'
 
 import log from './middleware/log4js/log'
 import httpproxymiddleware from './middleware/proxy/httpproxymiddleware'
+
+import zlib from 'zlib'
 
 // import httpservercache from './middleware/httpservercache'
 
 const redisConf = config.redis
 const router = new koaRouter()
 const app = new koa()
+
+
+//添加gzip压缩插件
+app.use(compress({
+    // 只有在请求的content-type中有gzip类型，我们才会考虑压缩，因为zlib是压缩成gzip类型的
+    filter: (content_type: string): boolean => {
+        return /text/i.test(content_type)
+    },
+    // 阀值，当数据超过1kb的时候，可以压缩
+    threshold: 1024,
+    // zlib是node的压缩模块
+    gzip: {
+        flush: zlib.constants.Z_SYNC_FLUSH
+    },
+    deflate: {
+        flush: zlib.constants.Z_SYNC_FLUSH,
+    },
+    br: false // disable brotli
+}))
+
+
+if (notTest) {
+    // logger 日志
+    app.use(async (ctx: Context, next: Next) => {
+        //响应开始时间
+        const start = Date.now()
+        //响应间隔时间
+        let ms: number
+        try {
+            //开始进入到下一个中间件
+            await next()
+            //记录响应日志
+            ms = Date.now() - start
+            log.info(ctx, ms)
+        } catch (error) {
+            //记录异常日志
+            ms = Date.now() - start
+            log.error({ ctx, error, resTime: ms })
+        }
+
+        log.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+    })
+}
 
 
 /**
@@ -61,7 +107,7 @@ app.use(json())
 app.use(koaStatic(__dirname + '/wwwroot', {
     maxage: 10,
     index: false
-    
+
 }))
 
 
@@ -95,28 +141,7 @@ app.use(session({
     // })
 }, app))
 
-if (notTest) {
-    // logger 日志
-    app.use(async (ctx: Context, next: Next) => {
-        //响应开始时间
-        const start = Date.now()
-        //响应间隔时间
-        let ms: number
-        try {
-            //开始进入到下一个中间件
-            await next()
-            //记录响应日志
-            ms = Date.now() - start
-            log.info(ctx, ms)
-        } catch (error) {
-            //记录异常日志
-            ms = Date.now() - start
-            log.error({ ctx, error, resTime: ms })
-        }
 
-        log.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-    })
-}
 
 //路由初始化
 addRouter(router)

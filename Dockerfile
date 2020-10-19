@@ -46,6 +46,8 @@ FROM node:11-alpine
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo 'Asia/Shanghai' >/etc/timezone
 
+delete
+
 WORKDIR /web
 
 COPY --from=distnodemodules /webapp/node_modules ./node_modules

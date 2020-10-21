@@ -24,8 +24,9 @@ const http = new HttpService('', {
     //默认的错误打印
     errorFn: (e: any) => {
         const { response, config, code } = e
-      
-        log.error({error: `
+
+        log.error({
+            error: `
 *************** error log start ***************
 error: ${e}
 method: ${config.method}
@@ -35,6 +36,7 @@ query: ${config.data}
 time: ${config.timeout}
 headers: ${JSON.stringify(config.headers)}
 status:${response ? response.status : 404}
+${e} 
 *************** error log end ***************
         `})
     }

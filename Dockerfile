@@ -14,6 +14,7 @@ RUN npm install
 
 #获取生产文件
 FROM node:11 as builddist
+ARG env
 
 WORKDIR /web
 
@@ -21,7 +22,7 @@ COPY --from=build /webapp/node_modules  ./node_modules
 
 COPY . .
 
-RUN npm run build
+RUN npm run build:${env}
 
 # RUN dir
 

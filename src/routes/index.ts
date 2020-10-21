@@ -3,10 +3,9 @@ import { Context, Next } from 'koa'
 import { test_middleware, test_2 } from '../middleware/test'
 import { Controller, get, middlewares } from '../common/decorator/httpMethod'
 import http from '../common/utils/net'
-import log from '../middleware/log4js/log'
-import { nunRender } from '../common/nunjucks'
 import path from 'path'
 import fs from 'fs-extra'
+import log from '../middleware/log4js/log'
 
 
 // import * as map from './map'
@@ -46,15 +45,15 @@ export default class Common {
     @get('/html')
     async html(ctx: Context, next: Next) {
         const url = path.resolve(__dirname, '..', 'wwwroot', 'index.html')
-
-        if(fs.pathExists(url)){
-            const res = await fs.readFile(url)
+        const isExists = await fs.pathExists(url)
+        if (isExists) {
+            const res = (await fs.readFile(url)).toString()
             ctx.type = 'text/html'
             ctx.status = 200
             ctx.body = res
             return
         }
-        
+
         await next()
 
     }

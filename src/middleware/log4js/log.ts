@@ -1,27 +1,29 @@
 
 import log4js from './index'
 import { Context } from 'koa'
-import { isDev, isDocker } from '../../common/utils/env'
+import { isDev, isDocker, notGa, isGa } from '../../common/utils/env'
 
 let errorLog = log4js.getLogger('errorLog') //此处使用category的值
 let resLog = log4js.getLogger('responseLog') //此处使用category的值
 let debugLog = log4js.getLogger('debugLog')
 
-if (isDocker || isDev) {
+if (notGa) {
     resLog.info = console.log
     errorLog.error = console.error
     debugLog.debug = console.log
 }
 
 
+//只在非正式环境和非docker环境下答应
 const info = function (ctx: Context, resTime: number) {
+    if (isGa || isDocker) { return }
     if (ctx) {
         resLog.info(formatRes(ctx, resTime))
     }
 }
 
+//在任何环境下都打印
 const error = function ({ ctx, error, resTime }: { ctx?: Context, error: any, resTime?: number }) {
-
     if (ctx && error) {
         errorLog.error(formatError(ctx, error, resTime))
     } else {
@@ -29,8 +31,10 @@ const error = function ({ ctx, error, resTime }: { ctx?: Context, error: any, re
     }
 }
 
+//只在非正式环境和非docker环境下答应
 const _log = function (...arg: any[]): void {
-    if (!arg || arg.length === 0) {return}
+    if (isGa || isDocker) { return }
+    if (!arg || arg.length === 0) { return }
     const str = arg.join(',')
 
     try {
@@ -121,6 +125,9 @@ const formatError = function (ctx: Context, err: any, resTime: number) {
     //错误详情
 
     logText += 'err stack: ' + err.stack + '\n'
+
+    //响应内容
+    logText += 'response body: ' + '\n' + JSON.stringify(ctx.body) + '\n'
 
     //错误信息结束
     logText += '*************** error log end ***************' + '\n'

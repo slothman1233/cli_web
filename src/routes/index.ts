@@ -47,7 +47,7 @@ export default class Common {
         const url = path.resolve(__dirname, '..', 'wwwroot', 'index.html')
         const isExists = await fs.pathExists(url)
         if (isExists) {
-            const res = await fs.readFile(url)
+            const res = (await fs.readFile(url)).toString()
             ctx.type = 'text/html'
             ctx.status = 200
             ctx.body = res

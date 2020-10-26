@@ -26,7 +26,7 @@ export default async () => {
 
     Promise.all(a.map(async item => {
         const ss = await worker.run<string>(item + 'WWWEERERERERER')
-        console.log(ss)
+        // console.log(ss)
     })).then(() =>{
         worker.destroy()
     })

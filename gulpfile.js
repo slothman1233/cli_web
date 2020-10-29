@@ -15,7 +15,7 @@ function clean(cb) {
 
 // 输出 js 到 dist目录
 function toJs() {
-    return src(['src/**/*.ts', '!src/wwwroot/**/*'])
+    return src(['src/**/*.ts', 'src/**/*.js', '!src/wwwroot/**/*'])
         .pipe(tsProject())
         .pipe(dest('dist'))
 }

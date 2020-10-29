@@ -16,11 +16,7 @@ import views from 'koa-views'
 import sequelizeInit from './db/sequelize/index'
 import cors from 'koa2-cors'
 
-import 'nuxt'
 
-// import {  Nuxt, Builder } from 'nuxt'
-// Nuxt()
-// Builder()
 //sequelize 初始化 需要则恢复 需要在config里面配置
 // sequelizeInit()
 

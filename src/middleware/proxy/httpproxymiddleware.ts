@@ -27,8 +27,9 @@ const ko2Proxy = (options: any = {}) => {
         
         let { targets = {} } = options
         const { path } = ctx
+     
 
-        targets = getTargets('https://gaqspread.wbp5.com')
+        targets = getTargets('https://devmsentapi.tostar.top')
 
         for (const route of Object.keys(targets)) {
             // console.log(345345352345325, path, pathToRegexp(route), pathToRegexp(route).test(path))

@@ -14,6 +14,9 @@ import path from 'path'
 import koaStatic from 'koa-static'
 import views from 'koa-views'
 import sequelizeInit from './db/sequelize/index'
+import cors from 'koa2-cors'
+
+
 //sequelize 初始化 需要则恢复 需要在config里面配置
 // sequelizeInit()
 
@@ -74,6 +77,7 @@ if (notTest) {
     })
 }
 
+app.use(cors())
 
 /**
  * 代理请求转发中间件

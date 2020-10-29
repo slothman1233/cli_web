@@ -7,6 +7,9 @@ import path from 'path'
 import fs from 'fs-extra'
 import log from '../middleware/log4js/log'
 
+import workers from '../common/utils/work/worker_threads'
+
+
 
 // import * as map from './map'
 
@@ -28,10 +31,33 @@ export default class Common {
             respost: JSON.stringify(respost)
         })
 
+
+
+
+
     }
 
     @get('/')
     async home(ctx: Context) {
+        workers()
+
+        // const dd = await http.get<any>(
+        //     'https://devmsentapi.tostar.top/api/Question/GetPagedList',
+        //     {
+        //         params: {
+        //             pageIndex: 1,
+        //             pageSize: 20,
+        //             selType: 0,
+        //             parQaId: 0,
+        //             status: -1,
+        //         },
+
+        //         headers: { 'Content-Type': 'application/json' }
+        //     }
+        // )
+
+        // console.log(4444,  dd)
+
         await ctx.render('index', {
             title: '111'
         })

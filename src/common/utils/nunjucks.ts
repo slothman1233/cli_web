@@ -3,7 +3,7 @@
     *nunjucksMiddleware作用: 给请求上下文加上render方法 将来在路由中使用 
   */
 
-
+import htmlMinifier from 'html-minifier'
 
 import { isDev } from './env'
 import { Context, Next } from 'koa'
@@ -71,13 +71,14 @@ export default (params: paramsModel) => {
     return async (ctx: Context, next: Next) => {
         ctx.render = async (filePath, renderData = {}) => {
             ctx.type = 'text/html'
-            //去除html多余的空格和注释 对html进行压缩
-            const html = nunjucksEVN.render(resolvePath(params, filePath), Object.assign({}, ctx.state, renderData))
-                .replace(/[\r\n]|\n+|<!--.*?-->|\/\*.*?\*\//g, '')
-            // .replace(/\n+/g, '')
-            // .replace(/<!--.*?-->/ig, '')
-            // .replace(/\/\*.*?\*\//ig, '')
-                .replace(/[ ]+</ig, '<')
+            
+            const html = htmlMinifier.minify(
+                nunjucksEVN.render(resolvePath(params, filePath), Object.assign({}, ctx.state, renderData)),
+                {
+                    collapseWhitespace: true
+                }
+            )
+
             ctx.body = html
         }
 

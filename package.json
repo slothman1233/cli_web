@@ -4,7 +4,6 @@
     "description": "",
     "main": "gulpfile.js",
     "scripts": {
-      
         "start": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon  --inspect=9230 src/bin/www.ts",
         "start:dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon --inspect=9230 src/bin/www.ts",
         "start:test": "cross-env NODE_ENV=test ./node_modules/.bin/nodemon --inspect=9230 src/bin/www.ts",
@@ -55,6 +54,7 @@
         "koa-static": "^5.0.0",
         "koa-swagger-decorator": "^1.6.8",
         "koa-views": "^6.3.0",
+        "koa2-cors": "^2.0.6",
         "koa2-proxy-middleware": "0.0.4",
         "log4js": "^6.3.0",
         "mime": "^2.4.6",

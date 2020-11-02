@@ -39,7 +39,7 @@ export default class Common {
 
     @get('/')
     async home(ctx: Context) {
-        workers()
+        // workers()
 
         // const dd = await http.get<any>(
         //     'https://devmsentapi.tostar.top/api/Question/GetPagedList',

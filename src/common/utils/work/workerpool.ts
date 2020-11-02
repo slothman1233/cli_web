@@ -3,6 +3,13 @@ import os from 'os'
 import { Worker } from 'worker_threads'
 const cpusLength = os.cpus().length
 
+// import events from 'events'
+// const EventEmitter = events.EventEmitter
+// const emitter = new EventEmitter()
+// emitter.setMaxListeners(100)
+// console.log(emitter.getMaxListeners())
+
+
 type taskModel = {
   data: any,
   callback: (error: any, result: any) => void
@@ -28,9 +35,12 @@ class workerPool {
   _activeWorkerById = {}
 
   //启动线程的数量
-  numberOfThreads = cpusLength
+  numberOfThreads:number = cpusLength
+  
+  
 
   constructor(workerPath: string, numberOfThread = cpusLength) {
+    
       if (numberOfThread < 1) {
           throw new Error('线程的数量应该大于或等于1!')
       }

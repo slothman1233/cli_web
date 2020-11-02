@@ -7,7 +7,7 @@ import koaRouter from 'koa-router'
 import redisStore from 'koa-redis'
 import config from './common/config/env'
 // import log from './common/utils/logger'
-import { isDev, notTest } from './common/utils/env'
+import { isDev, notJest } from './common/utils/env'
 import addRouter from './router'
 import compress from 'koa-compress'
 import path from 'path'
@@ -54,7 +54,7 @@ app.use(compress({
 }))
 
 
-if (notTest) {
+if (notJest) {
     // logger 日志
     app.use(async (ctx: Context, next: Next) => {
         //响应开始时间

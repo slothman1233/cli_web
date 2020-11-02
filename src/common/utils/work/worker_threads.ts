@@ -3,6 +3,14 @@ import { Worker, isMainThread, parentPort, threadId } from 'worker_threads'
 import path from 'path'
 
 
+
+/**
+ *  MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
+ *  emitter.setMaxListeners的作用是给EventEmitter设置最大监听数，感觉一般是不需要设置这个值，10个还不够用的情况应该是比较少了！
+ *  设计者认为侦听器太多会导致内存泄漏，所有就给出了一个警告！
+ *  Worker 是继承了 EventEmitter的
+ */
+
 import workerpol from './workerpool'
 
 
@@ -26,7 +34,7 @@ export default async () => {
 
     Promise.all(a.map(async item => {
         const ss = await worker.run<string>(item + 'WWWEERERERERER')
-        // console.log(ss)
+        console.log(ss)
     })).then(() =>{
         worker.destroy()
     })

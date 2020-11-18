@@ -2,15 +2,17 @@
 
 {# 引入变量 #}
 {% import "./shared/sharedView/set/index.njk" as setCon %}
-{% import "./shared/sharedView/macro/macro.njk" as macroCon%}
+{% import "./shared/sharedView/macro/macro.njk" as macroCon %}
 {% from './shared/sharedView/call/test.njk' import add %}
-{% from './shared/sharedView/macro/macro.njk' import field ,  test as macTest%}
+{% from './shared/sharedView/macro/macro.njk' import field , test as macTest%}
 
 {% block style %}
   <link href="/style/a.css" rel="stylesheet">
 {% endblock style %}
 
 {% block script %}
+
+ <script src="/script/index1.js"></script>
   <script src="/script/a.js"></script>
 {% endblock script %}
 
@@ -24,7 +26,7 @@
   {{ super() }}
 
   <div>
-    index页面
+       index页面
 
 
    {#
@@ -37,6 +39,7 @@
     <div id="tt"></div>
 
     <div>{{title | replace("2","ddd") | shorten}}</div>
+    <div> respost:{{respost}}</div>
     <div> 文本内容 </div>
     {{name}}
     {% set name='g'%}

@@ -25,7 +25,7 @@ export const isGa = ENV === 'ga'
 export const notGa = ENV !== 'ga'
 //单元测试环境
 export const isJest = ENV === 'jest'
-export const noJest = ENV !== 'jest'
+export const notJest = ENV !== 'jest'
 
 //是否是docker
 export const isDocker = ISDOCKER === 'docker'

@@ -34,7 +34,8 @@
         "docker:ga": "cross-env NODE_ENV=ga DOCKER=docker PORT=80 node bin/www.js"
     },
     "dependencies": {
-        "@stl/request": "^1.1.3",
+        "@stl/request": "^1.2.1",
+        "@stl/tool-ts": "^0.6.5",
         "cross-env": "^7.0.2",
         "crypto": "^1.0.1",
         "debug": "^4.1.1",

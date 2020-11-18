@@ -1,5 +1,7 @@
 import { Worker, isMainThread, parentPort, threadId } from 'worker_threads'
 
+
+
 import path from 'path'
 
 
@@ -14,9 +16,9 @@ import path from 'path'
 import workerpol from './workerpool'
 
 
+
 export default async () => {
     if (!isMainThread) { return }
-
 
     const worker = new workerpol(path.resolve(__dirname, 'work.js'), 3)
 
@@ -35,11 +37,13 @@ export default async () => {
     Promise.all(a.map(async item => {
         const ss = await worker.run<string>(item + 'WWWEERERERERER')
         console.log(ss)
-    })).then(() =>{
+        return ss
+    })).then((t) => {
+        console.log(t)
         worker.destroy()
     })
 
-   
+
 
 
 

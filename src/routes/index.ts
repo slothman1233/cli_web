@@ -20,8 +20,9 @@ export default class Common {
     @middlewares([test_middleware, test_2, test_2, test_middleware])
     @get('/index')
     async index(ctx: Context) {
-        const res = await http.get<any>('http://www.fx110.uk/api/test/test?type=2', { unErrorMsg: true })
-        const respost = await http.post('http://localhost:3000/api/test/testpost', { type: 1111, name: 'sdfdf', age: 55 })
+        // const res = await http.get<any>('http://www.fx110.uk/api/test/test?type=2', { unErrorMsg: true })
+        const res = 111
+        const respost = await http.post('http://localhost:3000/api/test/testpost', { type: '0', name: 'string', age: 0 })
         await ctx.render('index', {
             title: '12222313123123',
             name: '2',
@@ -30,11 +31,6 @@ export default class Common {
             httpget: JSON.stringify(res),
             respost: JSON.stringify(respost)
         })
-
-
-
-
-
     }
 
     @get('/')

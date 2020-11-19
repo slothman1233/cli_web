@@ -70,8 +70,8 @@ constant(nunjucksEVN)
 export default (params: paramsModel) => {
     return async (ctx: Context, next: Next) => {
         ctx.render = async (filePath, renderData = {}) => {
+     
             ctx.type = 'text/html'
-            
             const html = htmlMinifier.minify(
                 nunjucksEVN.render(resolvePath(params, filePath), Object.assign({}, ctx.state, renderData)),
                 {

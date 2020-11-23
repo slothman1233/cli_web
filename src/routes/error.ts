@@ -15,13 +15,13 @@ export default class error {
     @middlewares([test_middleware])
     @get('/404')
     async index(ctx: Context) {
-        await ctx.render('/404')
+        await ctx.render('error/404')
 
     }
 
-    @get('error')
+    @get('/error')
     async home(ctx: Context) {
-        await ctx.render('/error')
+        await ctx.render('error/error')
 
     }
 

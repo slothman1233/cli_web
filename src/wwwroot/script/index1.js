@@ -4069,7 +4069,7 @@
 	        key: 'getInactiveWorkerId',
 	        value: function getInactiveWorkerId() {
 	            for (let i = 0; i < this.numberOfThreads; i++) {
-	                if (!this._activeWorkerById[i]) {
+	                if (this._activeWorkerById[i] === false) {
 	                    return i
 	                }
 	            }
@@ -4128,13 +4128,16 @@
 	        value: function run(data) {
 	            let _this2 = this
 
+	            if (_JSON$stringify(this._activeWorkerById) === '{}') {
+	                promise.reject('worker子线程已经被销毁')
+	                return
+	            }
 	            return new promise(function (resolve, reject) {
 	                // 调用 getInactiveWorkerId() 获取一个空闲的 Worker
 	                let availableWorkerId = _this2.getInactiveWorkerId()
 	                let taskObj = {
 	                    data: data,
 	                    callback: function callback(error, result) {
-                            console.log( _this2._activeWorkerById)
 	                        if (error) {
 	                            reject(error)
 	                        }
@@ -4167,6 +4170,10 @@
 	                }
 	                this._workerById[i].terminate()
 	            }
+	            // Worker 索引
+	            this._workerById = {}
+	            // Worker 激活状态索引
+	            this._activeWorkerById = {}
 	        }
 	    }])
 

@@ -127,7 +127,10 @@ class workerPool {
      * @param {any} data 传给子线程的参数 
      */
     run<T>(data: any): Promise<T> {
-
+        if(JSON.stringify(this._activeWorkerById) === '{}') {
+            Promise.reject('worker子线程已经被销毁')
+            return
+        }
         return new Promise((resolve, reject) => {
             // 调用 getInactiveWorkerId() 获取一个空闲的 Worker
             const availableWorkerId = this.getInactiveWorkerId()

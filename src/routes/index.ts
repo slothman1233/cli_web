@@ -34,7 +34,9 @@ export default class Common {
     }
 
     @get('/')
-    async home(ctx: Context) {
+    async home(ctx: Context) {     
+        const res = await http.get<any>('https://testmsrightsapi.tostar.top/api/Aggregate/AdminIndexV1', { unErrorMsg: true })
+        console.log(22222, res)
         // workers()
 
         // const dd = await http.get<any>(

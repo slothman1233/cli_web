@@ -15,6 +15,11 @@ import koaStatic from 'koa-static'
 import views from 'koa-views'
 import sequelizeInit from './db/sequelize/index'
 import cors from 'koa2-cors'
+import bluebird from 'bluebird'
+import LRU from 'lru-cache'
+import window from './common/utils/window'
+window.Promise = bluebird
+
 
 
 //sequelize 初始化 需要则恢复 需要在config里面配置
@@ -27,12 +32,30 @@ import log from './middleware/log4js/log'
 import httpproxymiddleware from './middleware/proxy/httpproxymiddleware'
 
 import zlib from 'zlib'
+import microCache from './common/utils/microcache'
 
 // import httpservercache from './middleware/httpservercache'
-
+const micro = new microCache()
 const redisConf = config.redis
 const router = new koaRouter()
 const app = new koa()
+
+
+// app.use(async (ctx: Context, next: Next) => {
+//     const md5 = `${ctx.path}}`
+//     let html = ''
+//     const getCache = micro.get(md5)
+//     if (getCache) {
+//         console.log(getCache.value)
+//         ctx.type = getCache.type
+//         ctx.status = 200
+//         ctx.body = getCache.value
+//     } else {
+       
+//         await next()
+//     }
+
+// })
 
 
 //添加gzip压缩插件
@@ -52,6 +75,18 @@ app.use(compress({
     },
     br: false // disable brotli
 }))
+
+// app.use(async (ctx: Context, next: Next) => {
+    
+//     await next()
+//     console.log(JSON.stringify(ctx.body) )
+//     const md5 = `${ctx.path}}`
+//     const getCache = micro.get(md5)
+//     if (!getCache) {
+//         micro.set(md5, JSON.stringify(ctx.body), ctx.type)
+//     }
+
+// })
 
 
 if (notJest) {

@@ -60,7 +60,7 @@ const formatReqLog = function (ctx: Context, resTime: number): string {
             req.socket.remoteAddress ||  // 判断后端的 socket 的 IP
             (<any>req.connection).socket?.remoteAddress || ''
     }
-    let ip = getClientIp(ctx).match(/\d+.\d+.\d+.\d+/) || getClientIp(ctx)
+    let ip = getClientIp(ctx)
 
     let logText = ''
     //访问方法
@@ -71,6 +71,8 @@ const formatReqLog = function (ctx: Context, resTime: number): string {
     logText += 'request originalUrl:  ' + ctx.originalUrl + '\n'
     //客户端ip
     logText += 'request client ip:  ' + ip + '\n'
+
+    logText += 'request client ips:  ' + ctx.request.ips + '\n'
 
     //请求参数
     if (method === 'GET') {

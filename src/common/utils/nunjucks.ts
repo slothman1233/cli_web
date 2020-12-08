@@ -54,7 +54,7 @@ export const nunjucksEVN = new nunjucks.Environment(
 
     new nunjucks.FileSystemLoader(path.join(__dirname, '..', '..', 'views'), {
         noCache: !!isDev ? true : false//如果为 true，不使用缓存，模板每次都会重新编译。
-     
+      
     }),
     {
 
@@ -102,6 +102,7 @@ export default (params: paramsModel) => {
             //     )
             //     microCache.set(md5, html)
             // }
+           
 
             html = htmlMinifier.minify(
                 nunjucksEVN.render(resolvePath(params, filePath), Object.assign({}, ctx.state, renderData)),

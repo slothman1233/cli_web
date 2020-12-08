@@ -8,6 +8,7 @@ import fs from 'fs-extra'
 import log from '../middleware/log4js/log'
 
 import workers from '../common/utils/work/worker_threads'
+import { nunRender } from '../common/nunjucks'
 
 
 
@@ -34,9 +35,9 @@ export default class Common {
     }
 
     @get('/')
-    async home(ctx: Context) {     
-        const res = await http.get<any>('https://testmsrightsapi.tostar.top/api/Aggregate/AdminIndexV1', { unErrorMsg: true })
-        console.log(22222, res)
+    async home(ctx: Context) {
+        //  const res = await http.get<any>('https://testmsrightsapi.tostar.top/api/Aggregate/AdminIndexV1', { unErrorMsg: true })
+        //  console.log(22222, res)
         // workers()
 
         // const dd = await http.get<any>(
@@ -54,7 +55,7 @@ export default class Common {
         //     }
         // )
 
-        // console.log(4444,  dd)
+        // let ss = nunRender('views/index.njk', Object.assign({}, ctx.state))
 
         await ctx.render('index', {
             title: '111'

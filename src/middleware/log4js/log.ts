@@ -24,8 +24,10 @@ const info = function (ctx: Context, resTime: number) {
 
 //在任何环境下都打印
 const error = function ({ ctx, error, resTime }: { ctx?: Context, error: any, resTime?: number }) {
+
     if (ctx && error) {
-        errorLog.error(formatError(ctx, error, resTime))
+        // errorLog.error(formatError(ctx, error, resTime))
+        console.error(formatError(ctx, error, resTime))
     } else {
         console.error(error)
     }
@@ -78,7 +80,7 @@ const formatReqLog = function (ctx: Context, resTime: number): string {
     if (method === 'GET') {
         logText += 'request query:  ' + JSON.stringify(ctx.query) + '\n'
     } else {
-        logText += 'request body: ' + '\n' + JSON.stringify(ctx.request.body) + '\n'
+        // logText += 'request body: ' + '\n' + JSON.stringify(ctx.request.body) + '\n'
     }
 
     //服务器响应时间
@@ -100,7 +102,7 @@ const formatRes = function (ctx: Context, resTime: number) {
     logText += 'response status: ' + ctx.res.statusCode + '\n'
 
     //响应内容
-    logText += 'response body: ' + '\n' + JSON.stringify(ctx.body) + '\n'
+    // logText += 'response body: ' + '\n' + JSON.stringify(ctx.body) + '\n'
 
     //响应日志结束
     logText += '*************** response log end ***************' + '\n'

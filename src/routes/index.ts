@@ -10,10 +10,11 @@ import log from '../middleware/log4js/log'
 import workers from '../common/utils/work/worker_threads'
 import { nunRender } from '../common/nunjucks'
 
-
+//workers()
 
 // import * as map from './map'
-
+import { writeFile, EnsureFile, readFile, moveFile, copyFile } from '../common/utils/file'
+import { getType } from 'mime'
 
 export default class Common {
 
@@ -35,7 +36,7 @@ export default class Common {
     }
 
     @get('/')
-    async home(ctx: Context) {
+    async home(ctx: Context, next:Next) {
         //  const res = await http.get<any>('https://testmsrightsapi.tostar.top/api/Aggregate/AdminIndexV1', { unErrorMsg: true })
         //  console.log(22222, res)
         // workers()
@@ -55,7 +56,7 @@ export default class Common {
         //     }
         // )
 
-        // let ss = nunRender('views/index.njk', Object.assign({}, ctx.state))
+ 
 
         await ctx.render('index', {
             title: '111'
@@ -69,17 +70,25 @@ export default class Common {
      */
     @get('/html')
     async html(ctx: Context, next: Next) {
-        const url = path.resolve(__dirname, '..', 'wwwroot', 'index.html')
-        const isExists = await fs.pathExists(url)
-        if (isExists) {
-            const res = (await fs.readFile(url)).toString()
-            ctx.type = 'text/html'
-            ctx.status = 200
-            ctx.body = res
-            return
-        }
+        let ss = nunRender('views/index.njk', Object.assign({}, ctx.state))
 
-        await next()
+        let filepath = path.resolve(__dirname, '..', 'htmldist', 'index.html')
+        await EnsureFile(filepath)
+
+        await writeFile(filepath, ss.toString())
+
+        let htmlbuf = await readFile(filepath)
+
+        let getHtml = htmlbuf.toString()
+
+        if(getHtml !== ''){
+            ctx.type = `${getType(filepath)}; charset=utf-8`
+            ctx.status = 200
+            ctx.body = getHtml
+        }else{
+            await next()
+        }
+     
 
     }
 

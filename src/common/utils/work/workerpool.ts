@@ -126,7 +126,7 @@ class workerPool {
      * 执行线程
      * @param {any} data 传给子线程的参数 
      */
-    run<T>(data: any): Promise<T> {
+    run<T>(data?: any): Promise<T> {
         if(JSON.stringify(this._activeWorkerById) === '{}') {
             return  Promise.reject('worker子线程已经被销毁')
         }

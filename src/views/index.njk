@@ -5,18 +5,22 @@
 {% import "./shared/sharedView/macro/macro.njk" as macroCon %}
 {% from './shared/sharedView/call/test.njk' import add %}
 {% from './shared/sharedView/macro/macro.njk' import field , test as macTest%}
+{% block title %}
+  123123213333
+{% endblock title %}
 
 {% block style %}
   <link href="/style/a.css" rel="stylesheet">
 {% endblock style %}
 
 {% block script %}
+ 
 
- <script src="/script/index1.js"></script>
-  <script src="/script/a.js"></script>
+ 
 {% endblock script %}
 
 {% block body %}
+  <div id="container" style='width:240px'></div>
 
   {{imgFilePath}}
 
@@ -37,10 +41,12 @@
     {%- endcall %}
 
     <div id="tt"></div>
-
+  {% if title !== undefined%}
     <div>{{title | replace("2","ddd") | shorten}}</div>
+  {% endif %}
     <div> respost:{{respost}}</div>
     <div> 文本内容 </div>
+    {% set name='5g'%}
     {{name}}
     {% set name='g'%}
     {{name}}
@@ -55,14 +61,14 @@
     {{html | escape}}
 
     {% include "test.njk" %}
-
+{# 
     {% if title === "12222313123123" %}
       title
     {% elif name %}
       name
     {%else %}
       end
-    {% endif %}
+    {% endif %} #}
 
     {% for item in data %}
       <div>loop.index: {{loop.index}}: 当前循环数 (1 indexed) </div>

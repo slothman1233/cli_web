@@ -4,6 +4,7 @@
   */
 
 import htmlMinifier from 'html-minifier'
+// import LRU from 'lru-cache'
 
 import { isDev } from './env'
 import { Context, Next } from 'koa'
@@ -12,14 +13,23 @@ import path from 'path'
 
 import filter from '../nunjucks/filter'
 import constant from '../nunjucks/constant'
+import { COPYFILE_EXCL } from 'constants'
+
+import stringify from 'fast-json-stringify'
+
 
 type paramsModel = {
     ext?: string, //文件后缀
     path?: string //文件夹全路径
 }
 
-
-
+// const options = {
+//     max: 500,
+//     length: function (n: any, key: any) {return n * 2 + key.length },
+//     dispose: function (key: any, n: any) {  n.close() },
+//     maxAge: 1000 * 60 * 60
+// }
+// const microCache = new LRU(options)
 
 
 let resolvePath = (params: paramsModel = {}, filePath: string): string => {
@@ -44,6 +54,7 @@ export const nunjucksEVN = new nunjucks.Environment(
 
     new nunjucks.FileSystemLoader(path.join(__dirname, '..', '..', 'views'), {
         noCache: !!isDev ? true : false//如果为 true，不使用缓存，模板每次都会重新编译。
+      
     }),
     {
 
@@ -68,16 +79,38 @@ constant(nunjucksEVN)
 
 //ext
 export default (params: paramsModel) => {
+
+
+
     return async (ctx: Context, next: Next) => {
+
+
+
         ctx.render = async (filePath, renderData = {}) => {
-            ctx.type = 'text/html'
-            
-            const html = htmlMinifier.minify(
+            // ctx.type = 'text/html'
+            // const md5 = `${filePath}_${JSON.stringify(renderData)}`
+            let html = ''
+            // const getCache = microCache.get(md5)
+            // if (getCache) {
+            //     html = getCache
+            // } else {
+            //     html = htmlMinifier.minify(
+            //         nunjucksEVN.render(resolvePath(params, filePath), Object.assign({}, ctx.state, renderData)),
+            //         {
+            //             collapseWhitespace: true
+            //         }
+            //     )
+            //     microCache.set(md5, html)
+            // }
+           
+
+            html = htmlMinifier.minify(
                 nunjucksEVN.render(resolvePath(params, filePath), Object.assign({}, ctx.state, renderData)),
                 {
                     collapseWhitespace: true
                 }
             )
+
 
             ctx.body = html
         }

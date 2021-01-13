@@ -14,7 +14,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedParameters": false,
         "noUnusedLocals": false,
-        "noImplicitReturns": false,
+        "noImplicitReturns": true,
         "experimentalDecorators": true, // 开启装饰器的使用
         "emitDecoratorMetadata": true,
         "allowJs": true,

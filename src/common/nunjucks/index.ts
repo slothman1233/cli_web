@@ -4,7 +4,7 @@
 
 import path from 'path'
 import { nunjucksEVN } from '../utils/nunjucks'
-
+import htmlMinifier from 'html-minifier'
 
 /**
  *通过文件地址跟参数获取编译后的html代码
@@ -13,7 +13,16 @@ import { nunjucksEVN } from '../utils/nunjucks'
  */
 export const nunRender = (filepath: string, optins: any) => {
     if (!filepath) { return null }
-    return nunjucksEVN.render(path.resolve(__dirname, '..', '..', filepath), Object.assign({}, optins))
+
+
+    let html = htmlMinifier.minify(
+        nunjucksEVN.render(path.resolve(__dirname, '..', '..', filepath), Object.assign({}, optins)),
+        {
+            collapseWhitespace: true
+        }
+    )
+
+    return html
 }
 
 /**
@@ -23,7 +32,18 @@ export const nunRender = (filepath: string, optins: any) => {
  */
 export const nunRenderString = (str: string, optins: any) => {
     if (!str) { return null }
-    return nunjucksEVN.renderString(str, Object.assign({}, optins))
+
+
+
+    let html = htmlMinifier.minify(
+        nunjucksEVN.renderString(str, Object.assign({}, optins)),
+        {
+            collapseWhitespace: true
+        }
+    )
+
+
+    return html
 }
 
 

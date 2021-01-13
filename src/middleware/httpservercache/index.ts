@@ -13,6 +13,8 @@ async function httpservercache(ctx: Context, next: Next) {
     if (/\S*\.(jpe?g|png|gif|css)$/.test(path)) {
         await responseFile(Path.resolve(__dirname, '..', '..', 'wwwroot', `.${path}`), ctx)
         return
+    }else if(/\S*\.(jpe?g|png|gif|css)$/.test(path)){
+
     }
 
     //样式

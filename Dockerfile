@@ -1,4 +1,4 @@
-
+#RUN npm config set sass_binary_site https://npm.taobao.org/mirrors/node-sass/
 #下载项目文件的node_modules
 FROM node:11 as build
 

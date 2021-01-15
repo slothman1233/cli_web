@@ -37,6 +37,7 @@
     },
     "dependencies": {
         "@stl/request": "^1.2.8",
+        "@stl/tool-ts": "^1.0.10",
         "cross-env": "^7.0.2",
         "crypto": "^1.0.1",
         "debug": "^4.1.1",

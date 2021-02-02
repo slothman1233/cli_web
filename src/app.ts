@@ -48,8 +48,6 @@ app.use(async (ctx, next) => {
     )
     ctx.set('Access-Control-Allow-Methods', 'OPTIONS,GET,HEAD,PUT,POST,DELETE,PATCH')
 
-    ctx.set('X-Forwarded-For', ctx.req.connection.remoteAddress)
-    ctx.set('X-Real-IP', ctx.req.connection.remoteAddress)
     await next()
 })
 

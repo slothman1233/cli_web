@@ -1,8 +1,7 @@
+
+
+import koa, { Context } from 'koa'
 //获取ip（内网或外网）
-
-import { IncomingMessage } from 'http'
-import { Context } from 'koa'
-
 export const getIp = function (ctx: Context) {
     let { req } = ctx
     let ipStr = req.headers['X-Real-IP'] || req.headers['x-forwarded-for']
@@ -26,9 +25,24 @@ export const getIp = function (ctx: Context) {
 
 }
 
-//获取外网ip
 
-export const getNetIp = function (ctx: any) {
+//获取本机ip地址
+export const getIPAdress = function () {
+    let interfaces = require('os').networkInterfaces()
+    console.log(interfaces)
+    for (let devName in interfaces) {
+        let iface = interfaces[devName]
+        for (let i = 0; i < iface.length; i++) {
+            let alias = iface[i]
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                return alias.address
+            }
+        }
+    }
+}
+
+//获取外网ip
+export const getNetIp = function (ctx: Context) {
     let { req } = ctx
     let ipStr = req.headers['X-Real-IP'] || req.headers['x-forwarded-for']
 
@@ -65,3 +79,20 @@ export const getNetIp = function (ctx: any) {
     }
 
 }
+
+
+//通过req的hearers来获取客户端ip
+export let getClientIp = function (ctx: Context | koa.ParameterizedContext<koa.DefaultState, koa.DefaultContext>) {
+    let { req } = ctx
+    let ip = req.headers['X-Real-IP'] || req.headers['x-forwarded-for'] || ctx.ip || req.connection.remoteAddress || req.socket.remoteAddress || (<any>req.connection).socket?.remoteAddress || ''
+
+    if (typeof ip === 'string' && ip.split(',').length > 0) {
+        ip = ip.split(',')[0]
+    }
+
+    ip = ip.substr(ip.lastIndexOf(':') + 1, ip.length)
+    return ip
+}
+
+
+

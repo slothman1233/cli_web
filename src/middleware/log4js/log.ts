@@ -2,6 +2,7 @@
 import log4js from './index'
 import { Context } from 'koa'
 import { isDev, isDocker, notGa, isGa } from '../../common/utils/env'
+import { getNetIp } from '../../common/utils/getip'
 
 let errorLog = log4js.getLogger('errorLog') //此处使用category的值
 let resLog = log4js.getLogger('responseLog') //此处使用category的值
@@ -55,14 +56,14 @@ const log = { info, error, log: _log }
 //格式化请求日志
 const formatReqLog = function (ctx: Context, resTime: number): string {
 
-    let getClientIp = function (ctx: Context) {
-        const req = ctx.req
-        return req.headers['x-forwarded-for'] || // 判断是否有反向代理 IP
-            req.connection.remoteAddress || // 判断 connection 的远程 IP
-            req.socket.remoteAddress ||  // 判断后端的 socket 的 IP
-            (<any>req.connection).socket?.remoteAddress || ''
-    }
-    let ip = getClientIp(ctx)
+    // let getClientIp = function (ctx: Context) {
+    //     const req = ctx.req
+    //     return req.headers['X-Forwarded-For'] || // 判断是否有反向代理 IP
+    //         req.connection.remoteAddress || // 判断 connection 的远程 IP
+    //         req.socket.remoteAddress ||  // 判断后端的 socket 的 IP
+    //         (<any>req.connection).socket?.remoteAddress || ''
+    // }
+    let ip = getNetIp(ctx)
 
     let logText = ''
     //访问方法

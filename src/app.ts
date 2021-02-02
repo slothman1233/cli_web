@@ -39,7 +39,19 @@ const micro = new microCache()
 const redisConf = config.redis
 const router = new koaRouter()
 const app = new koa()
+app.use(async (ctx, next) => {
+    ctx.set('Access-Control-Allow-Origin', ctx.headers.origin) // 很奇怪的是，使用 * 会出现一些其他问题
+    ctx.set('Access-Control-Allow-Credentials', 'true')
+    ctx.set(
+        'Access-Control-Allow-Headers',
+        'Content-Type,Authorization,token,operateName, operateUid, sign,timestamp,nonce,accessKey'
+    )
+    ctx.set('Access-Control-Allow-Methods', 'OPTIONS,GET,HEAD,PUT,POST,DELETE,PATCH')
 
+    ctx.set('X-Forwarded-For', ctx.req.connection.remoteAddress)
+    ctx.set('X-Real-IP', ctx.req.connection.remoteAddress)
+    await next()
+})
 
 // app.use(async (ctx: Context, next: Next) => {
 //     const md5 = `${ctx.path}}`
@@ -51,7 +63,7 @@ const app = new koa()
 //         ctx.status = 200
 //         ctx.body = getCache.value
 //     } else {
-       
+
 //         await next()
 //     }
 
@@ -77,7 +89,7 @@ app.use(compress({
 }))
 
 // app.use(async (ctx: Context, next: Next) => {
-    
+
 //     await next()
 //     console.log(JSON.stringify(ctx.body) )
 //     const md5 = `${ctx.path}}`

@@ -33,7 +33,7 @@ const server = http.createServer(app.callback())
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port)
+server.listen(port, '0.0.0.0')
 server.on('error', onError)
 server.on('listening', onListening)
 
@@ -41,7 +41,7 @@ server.on('listening', onListening)
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val:any) {
+function normalizePort(val: any) {
     const port = parseInt(val, 10)
 
     if (isNaN(port)) {
@@ -61,7 +61,7 @@ function normalizePort(val:any) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error:any) {
+function onError(error: any) {
     if (error.syscall !== 'listen') {
         throw error
     }

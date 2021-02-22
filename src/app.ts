@@ -69,22 +69,22 @@ app.use(async (ctx, next) => {
 
 
 //添加gzip压缩插件
-app.use(compress({
-    // 只有在请求的content-type中有gzip类型，我们才会考虑压缩，因为zlib是压缩成gzip类型的
-    filter: (content_type: string): boolean => {
-        return /text/i.test(content_type)
-    },
-    // 阀值，当数据超过1kb的时候，可以压缩
-    threshold: 1024,
-    // zlib是node的压缩模块
-    gzip: {
-        flush: zlib.constants.Z_SYNC_FLUSH
-    },
-    deflate: {
-        flush: zlib.constants.Z_SYNC_FLUSH,
-    },
-    br: false // disable brotli
-}))
+// app.use(compress({
+//     // 只有在请求的content-type中有gzip类型，我们才会考虑压缩，因为zlib是压缩成gzip类型的
+//     filter: (content_type: string): boolean => {
+//         return /text/i.test(content_type)
+//     },
+//     // 阀值，当数据超过1kb的时候，可以压缩
+//     threshold: 1024,
+//     // zlib是node的压缩模块
+//     gzip: {
+//         flush: zlib.constants.Z_SYNC_FLUSH
+//     },
+//     deflate: {
+//         flush: zlib.constants.Z_SYNC_FLUSH,
+//     },
+//     br: false // disable brotli
+// }))
 
 // app.use(async (ctx: Context, next: Next) => {
 
@@ -111,7 +111,7 @@ if (notJest) {
             await next()
             //记录响应日志
             ms = Date.now() - start
-            log.info(ctx, ms)
+            // log.info(ctx, ms)
         } catch (error) {
             //记录异常日志
             ms = Date.now() - start

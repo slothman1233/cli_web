@@ -82,7 +82,7 @@ export default class Common {
         let getHtml = htmlbuf.toString()
 
         if(getHtml !== ''){
-            ctx.type = `${mime.lookup(filepath)}; charset=utf-8`
+            ctx.type = `${mime.getType(filepath)}; charset=utf-8`
             ctx.status = 200
             ctx.body = getHtml
         }else{

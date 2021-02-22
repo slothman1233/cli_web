@@ -154,8 +154,9 @@ app.use(json())
 // extensions -- URL 中没有扩展名时，尝试匹配传递的数组中的扩展名以搜索文件。首先找到的是送达。（默认为false）
 
 app.use(koaStatic(__dirname + '/wwwroot', {
-    maxage: 10,
-    index: false
+    maxage: 1000 * 60,
+    index: false,
+    gzip: false
 
 }))
 

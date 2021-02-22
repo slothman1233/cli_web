@@ -14,7 +14,7 @@ import { nunRender } from '../common/nunjucks'
 
 // import * as map from './map'
 import { writeFile, EnsureFile, readFile, moveFile, copyFile } from '../common/utils/file'
-import { getType } from 'mime'
+import mime from 'mime'
 
 export default class Common {
 
@@ -82,7 +82,7 @@ export default class Common {
         let getHtml = htmlbuf.toString()
 
         if(getHtml !== ''){
-            ctx.type = `${getType(filepath)}; charset=utf-8`
+            ctx.type = `${mime.lookup(filepath)}; charset=utf-8`
             ctx.status = 200
             ctx.body = getHtml
         }else{

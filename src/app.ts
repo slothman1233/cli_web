@@ -112,7 +112,7 @@ if (notJest) {
             await next()
             //记录响应日志
             ms = Date.now() - start
-            log.info(ctx, ms)
+            // log.info(ctx, ms)
         } catch (error) {
             //记录异常日志
             ms = Date.now() - start

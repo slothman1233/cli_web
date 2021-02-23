@@ -15,40 +15,22 @@ const modules: any[] = []
  */
 const addRouter = async (router: Router) => {
     const ctrPath = path.join(__dirname, 'routes')
+    //扫描controller文件夹，收集所有controller
     await fileScan(ctrPath)
-    // const modules: ObjectConstructor[] = []
-    // // 扫描controller文件夹，收集所有controller
-    // fs.readdirSync(ctrPath).forEach(name => {
-    //     console.log(name)
-    //     if (/^[^.]+\.(t|j)s$/.test(name)) {
-    //         const module = require(path.join(ctrPath, name)).default
-    //         if (module) { modules.push(module) }
-    //     }
-    // })
+
     // 结合meta数据添加路由 和 验证
     modules.forEach(items => {
-
         let m = items[0]
-
         let ControllerPath = Reflect.getMetadata(CONTROLLER_PATH_METADATA, m) || items[1].replace(/\\/g, '/') || ''
-
-
-
         ControllerPath = ControllerPath !== '' ? sprit(ControllerPath) : ''
         let middlewares = Reflect.getMetadata(MIDDLEWARE, m) || ''
-
-
         const RouteMap: Array<RouteMeta> = Reflect.getMetadata(ROUTER_META, m)
-
         RouteMap.map(item => {
             const { name, path: ActionPath, method } = item
             const ctr = new m()
             const RoutePath = ControllerPath + sprit(ActionPath)
             let methods: Array<any> = middlewares[name] || []
             router[method](RoutePath, middlewareFn(methods), ctr[name])
-
-
-
         })
 
     })
@@ -58,7 +40,6 @@ const addRouter = async (router: Router) => {
 
 async function fileScan(filepath: string) {
     let fileArg: string[] = fs.readdirSync(filepath)
-
     for (let i = 0; i < fileArg.length; i++) {
         let name = fileArg[i]
         let paths = path.join(filepath, name)

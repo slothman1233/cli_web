@@ -35,7 +35,6 @@ const addRouter = async (router: Router) => {
 
 
         ControllerPath = ControllerPath !== '' ? sprit(ControllerPath) : ''
-        console.log(ControllerPath)
         let middlewares = Reflect.getMetadata(MIDDLEWARE, m) || ''
 
 

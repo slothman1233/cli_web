@@ -1,21 +1,21 @@
 
 import { Context, Next } from 'koa'
-import { test_middleware, test_2 } from '../middleware/test'
-import { Controller, get, middlewares } from '../common/decorator/httpMethod'
-import http from '../common/utils/net'
+import { test_middleware, test_2 } from '../../middleware/test'
+import { Controller, get, middlewares } from '../../common/decorator/httpMethod'
+import http from '../../common/utils/net'
 import path from 'path'
 import fs from 'fs-extra'
-import log from '../middleware/log4js/log'
+import log from '../../middleware/log4js/log'
 
-import workers from '../common/utils/work/worker_threads'
-import { nunRender } from '../common/nunjucks'
+import workers from '../../common/utils/work/worker_threads'
+import { nunRender } from '../../common/nunjucks'
 
 //workers()
 
 // import * as map from './map'
-import { writeFile, EnsureFile, readFile, moveFile, copyFile } from '../common/utils/file'
+import { writeFile, EnsureFile, readFile, moveFile, copyFile } from '../../common/utils/file'
 
-
+@Controller('/s')
 export default class Common {
 
 
@@ -27,7 +27,7 @@ export default class Common {
         const respost = await http.post('http://localhost:3000/api/test/testpost', { type: '0', name: 'string', age: 0 })
         await ctx.render('index', {
             title: '12222313123123',
-            name: '2',
+            name: '2444444444444444',
             html: '<div>3</div>',
             data: [{ a: 1, b: 2, c: 3 }, { a: 4, b: 5, c: 6 }, { a: 4, b: 5, c: 6 }, { a: 4, b: 5, c: 6 }],
             httpget: JSON.stringify(res),

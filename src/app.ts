@@ -35,7 +35,8 @@ import zlib from 'zlib'
 import microCache from './common/utils/microcache'
 
 // import httpservercache from './middleware/httpservercache'
-const micro = new microCache()
+// const micro = new microCache()
+
 const redisConf = config.redis
 const router = new koaRouter()
 const app = new koa()
@@ -111,7 +112,7 @@ if (notJest) {
             await next()
             //记录响应日志
             ms = Date.now() - start
-            // log.info(ctx, ms)
+            log.info(ctx, ms)
         } catch (error) {
             //记录异常日志
             ms = Date.now() - start
@@ -154,9 +155,9 @@ app.use(json())
 // extensions -- URL 中没有扩展名时，尝试匹配传递的数组中的扩展名以搜索文件。首先找到的是送达。（默认为false）
 
 app.use(koaStatic(__dirname + '/wwwroot', {
-    maxage: 1000 * 60,
+    maxage: 1000 * 10,
     index: false,
-    gzip: false
+    gzip: true
 
 }))
 
@@ -192,26 +193,35 @@ app.use(session({
 }, app))
 
 
+async function start() {
 
-//路由初始化
-addRouter(router)
-
-
-
-app.use(router.routes()).use(router.allowedMethods())
-
-app.use(async (ctx: Context) => {
-    //必须赋值不赋值的情况如果资源是404的话   返回的还是200
-    ctx.status = 404
-    await ctx.render('error/404')
-})
-
-// 错误处理
-// app.on('error', async (err, ctx) => {
-//     console.error('server error', err.message, err.stack)
-//     await ctx.render('error/error')
-// })
+    //路由初始化
+    await addRouter(router)
 
 
 
+    app.use(router.routes()).use(router.allowedMethods())
+
+    app.use(async (ctx: Context) => {
+
+        //给文件添加类型
+        let baseurl = path.basename(ctx.path)
+        if (/\./.exec(baseurl)) {
+            ctx.type = baseurl.split('.')[1]
+        }
+        //必须赋值不赋值的情况如果资源是404的话   返回的还是200
+        ctx.status = 404
+
+        await ctx.render('error/404')
+    })
+
+    // 错误处理
+    // app.on('error', async (err, ctx) => {
+    //     console.error('server error', err.message, err.stack)
+    //     await ctx.render('error/error')
+    // })
+}
+
+
+start()
 export default app

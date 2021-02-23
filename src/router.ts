@@ -7,29 +7,35 @@ const { ROUTER_META, CONTROLLER_PATH_METADATA, MIDDLEWARE } = ROUTER_MAP
 import Router from 'koa-router'
 import { Context, Next } from 'koa'
 import log from './middleware/log4js/log'
-
+import { isDir } from './common/utils/file'
+const modules: any[] = []
 /**
  * 路由的初始化
  * @param {Router} router koa-router
  */
-const addRouter = (router: Router) => {
+const addRouter = async (router: Router) => {
     const ctrPath = path.join(__dirname, 'routes')
-
-
-    const modules: ObjectConstructor[] = []
-    // 扫描controller文件夹，收集所有controller
-    fs.readdirSync(ctrPath).forEach(name => {
-        if (/^[^.]+\.(t|j)s$/.test(name)) {
-            const module = require(path.join(ctrPath, name)).default
-            if (module) { modules.push(module) }
-        }
-    })
+    await fileScan(ctrPath)
+    // const modules: ObjectConstructor[] = []
+    // // 扫描controller文件夹，收集所有controller
+    // fs.readdirSync(ctrPath).forEach(name => {
+    //     console.log(name)
+    //     if (/^[^.]+\.(t|j)s$/.test(name)) {
+    //         const module = require(path.join(ctrPath, name)).default
+    //         if (module) { modules.push(module) }
+    //     }
+    // })
     // 结合meta数据添加路由 和 验证
-    modules.forEach(m => {
+    modules.forEach(items => {
 
-        let ControllerPath = Reflect.getMetadata(CONTROLLER_PATH_METADATA, m) || ''
+        let m = items[0]
+
+        let ControllerPath = Reflect.getMetadata(CONTROLLER_PATH_METADATA, m) || items[1].replace(/\\/g, '/') || ''
+
+
+
         ControllerPath = ControllerPath !== '' ? sprit(ControllerPath) : ''
-
+        console.log(ControllerPath)
         let middlewares = Reflect.getMetadata(MIDDLEWARE, m) || ''
 
 
@@ -42,12 +48,30 @@ const addRouter = (router: Router) => {
             let methods: Array<any> = middlewares[name] || []
             router[method](RoutePath, middlewareFn(methods), ctr[name])
 
-          
+
 
         })
 
     })
 
+
+}
+
+async function fileScan(filepath: string) {
+    let fileArg: string[] = fs.readdirSync(filepath)
+
+    for (let i = 0; i < fileArg.length; i++) {
+        let name = fileArg[i]
+        let paths = path.join(filepath, name)
+        if (await isDir(paths)) {
+            await fileScan(paths)
+        } else if (/^[^.]+\.(t|j)s$/.test(name)) {
+            const ctrPath = path.join(__dirname, 'routes')
+            const module = require(paths).default
+            paths = paths.replace(ctrPath, '').replace(paths.substr(paths.lastIndexOf('\\')), '')
+            if (module) { modules.push([module, paths]) }
+        }
+    }
 
 }
 

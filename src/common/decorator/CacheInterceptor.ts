@@ -3,6 +3,7 @@
 import { CacheTime } from '../../enums/enums'
 import { bodyModel } from '../../model/resModel'
 import microCache from '../utils/microcache'
+import { awaitData, hasEvent, queryData } from './CacheBreakdown'
 
 
 
@@ -28,7 +29,7 @@ function timeTask(key: string, CacheSeconds: number, arg: any[], method: Functio
     //如果存在则跳过
     if (Object.keys(timeTaskAry).indexOf(cacheName) >= 0) { return }
 
-    settime(key, CacheSeconds, arg, method, proto)
+    process.nextTick(() => settime(key, CacheSeconds, arg, method, proto))
 
 }
 
@@ -39,7 +40,7 @@ function settime(key: string, CacheSeconds: number, arg: any[], method: Function
         if (val.subcode !== '') {
             cache.set(cacheName, val)
         }
-        settime(key, CacheSeconds, arg, method, proto)
+        process.nextTick(() => settime(key, CacheSeconds, arg, method, proto))
     }, CacheSeconds * 1000)
 
 
@@ -68,9 +69,21 @@ export default function CacheInterceptor(key: string, CacheSeconds: CacheTime) {
                 return Promise.resolve(getCache)
             }
 
-            let val
+
+            let val:bodyModel<any>
             try {
-                val = await method.apply(proto.constructor, arg)
+            
+                //防止缓存击穿
+                if (hasEvent(cacheName)) {
+                    val = await awaitData(cacheName)
+                    // console.log(`await::${JSON.stringify(val)}--${cacheName}`)
+                } else {
+                    val = await queryData(cacheName, async () => await method.apply(proto.constructor, arg))
+                    // console.log(`queryData::${JSON.stringify(val)}--${cacheName}`)
+                }
+
+                // val = await method.apply(proto.constructor, arg)
+
                 if (val.subcode !== '') {
                     cache.set(cacheName, val)
                 } else {

@@ -3,7 +3,7 @@
 import { CacheTime } from '../../enums/enums'
 import { bodyModel } from '../../model/resModel'
 import microCache from '../utils/microcache'
-import { awaitData, hasEvent, queryData } from './CacheBreakdown'
+import { awaitData, hasEvent, queryData } from '../utils/CacheBreakdown'
 
 
 

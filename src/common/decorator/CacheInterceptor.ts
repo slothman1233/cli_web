@@ -1,7 +1,7 @@
 
 
 import { CacheTime } from '../../enums/enums'
-import { bodyModel } from '../../model/resModel'
+import { bodyModel, ReturnModel } from '../../model/resModel'
 import microCache from '../utils/microcache'
 import { awaitData, hasEvent, queryData } from '../utils/CacheBreakdown'
 
@@ -90,7 +90,9 @@ export default function CacheInterceptor(key: string, CacheSeconds: CacheTime) {
                     cache.set(cacheName, null)
                 }
 
-            } catch (e) { }
+            } catch (e) { 
+                val = new ReturnModel({})
+            }
 
             return val
         }

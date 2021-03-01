@@ -11,8 +11,7 @@ import { Context, Next } from 'koa'
 import nunjucks from 'nunjucks'
 import path from 'path'
 
-import filter from '../nunjucks/filter'
-import constant from '../nunjucks/constant'
+import { filter, constant } from '../nunjucks/index'
 import { COPYFILE_EXCL } from 'constants'
 
 import stringify from 'fast-json-stringify'

@@ -71,13 +71,11 @@ npm run docker  -----  在docker下运行
 │   ├── common  公共文件
 │   │   ├── config  全局配置文件夹
 │   │   │   ├── env   配置文件夹
-│   │   │   ├── filter.ts   过滤器配置
 │   │   │   └── constant.ts   全局常量文件
 │   │   ├── decorator  装饰器文件夹
 │   │   │   └── httpMethod.ts   路由装饰器
 │   │   ├── nunjucks  装饰器文件夹
-│   │   │   ├── constant.ts   全局静态配置
-│   │   │   ├── filter.ts   过滤器入口
+│   │   │   ├── filter.ts   过滤器配置
 │   │   │   └── index.ts    编译html代码插件
 │   │   ├── type  全局的类型文件夹
 │   │   │   └── type.d.ts   类型文件包含一些  路由模型类型 中间件的模型 等全局需要用到的

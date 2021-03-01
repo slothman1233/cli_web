@@ -74,3 +74,9 @@ export function isBuffer(arg:any) {
 export function objectToString(o:any) {
     return Object.prototype.toString.call(o)
 }
+
+
+//判断是否是异步方法
+export function isAsync(fun: any) {
+    return fun.constructor.name === 'AsyncFunction' || fun.constructor instanceof Promise
+}

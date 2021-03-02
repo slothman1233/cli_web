@@ -63,11 +63,12 @@ function middlewareFn(methods: Array<Function>) {
     let fnAry = methods
     let ctx: Context
     let next: Next
-
+    let index: number
 
     return async function (ctxs: Context, nexts: Next) {
         ctx = ctxs
         next = nexts
+        index = 0
         try {
             await nextFn()
         } catch (err) {
@@ -79,12 +80,14 @@ function middlewareFn(methods: Array<Function>) {
     }
 
     //递归执行方法
+
     async function nextFn() {
 
-        if (fnAry.length === 0) {
+        if (fnAry.length < index + 1) {
             await next()
         } else {
-            const fn = fnAry.shift()
+            const fn = fnAry[index]
+            index++
             //判断是否是方法如果不是则跳过
             if (typeof fn !== 'function') {
                 nextFn()

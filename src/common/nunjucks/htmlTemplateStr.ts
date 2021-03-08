@@ -1,10 +1,13 @@
+import { nunRender } from './index'
 
 
 
 export default {
-    'FmMoreRead': function () {
+    'FmMoreRead': function (url: string, ...arg: any) {
+       
         try {
-            console.log(arguments)
+            nunRender(url, { models: arg })
+            console.log(arg)
             return 'sdfdsf'
         } catch (e) {
             return 'sdfdsf'

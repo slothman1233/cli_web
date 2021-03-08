@@ -15,7 +15,10 @@ import { filter, constant } from '../nunjucks/index'
 import { COPYFILE_EXCL } from 'constants'
 
 import stringify from 'fast-json-stringify'
+import hFilter from '../nunjucks/htmlTemplate'
 
+
+const hf = hFilter
 
 type paramsModel = {
     ext?: string, //文件后缀
@@ -111,6 +114,8 @@ export default (params: paramsModel) => {
                 }
             )
 
+            html = await getWUCHtml(html)
+
 
             ctx.body = html
         }
@@ -118,5 +123,33 @@ export default (params: paramsModel) => {
         // 中间件本身执行完成 需要调用next去执行下一步计划
         return next()
     }
+
+}
+
+
+
+//获取部分页的html处理
+async function getWUCHtml(str:string):Promise<string>{
+    let data:any[] = []
+    let i =0
+    str = str.replace(/{@{(.*?)}@}/ig, function($1:string, $2:string):string{
+        let strs ='@{@'+i+'@}@'
+        data.push({
+            reg: $1,
+            funStr: $2,
+            indexStr: strs
+        })
+        str = str.replace($1, strs)
+        i++
+        return str
+    })
+
+    for (let i = 0; i < data.length; i++) {
+        let item = data[i]
+
+        let html = await hf.getHtml(item.funStr)
+        str = str.replace(item.indexStr, html)
+    }
+    return str
 
 }

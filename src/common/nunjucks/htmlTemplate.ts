@@ -40,7 +40,7 @@ class htmlFilter {
                 return istr
             })
 
-            let ary = arg.split(',')
+            let ary = arg.replace(/"|'/g, '').split(',')
 
             for (let s = 0; s < ary.length; s++) {
                 if (args[ary[s]]) {

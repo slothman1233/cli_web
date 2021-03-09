@@ -139,9 +139,9 @@ async function getWUCHtml(str:string):Promise<string>{
             funStr: $2,
             indexStr: strs
         })
-        str = str.replace($1, strs)
+        //  str = str.replace($1, strs)
         i++
-        return str
+        return strs
     })
 
     for (let i = 0; i < data.length; i++) {

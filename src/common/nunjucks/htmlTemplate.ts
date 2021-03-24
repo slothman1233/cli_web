@@ -11,7 +11,7 @@ class htmlFilter {
             let that = this
             let arg: any[] = []
             let funName = funStr.replace(/\((.*)\)/g, function ($1: string, $2: string) {
-                arg = that.argFunc($2)
+                arg = that.argFunc($2.trim())
                 return ''
             })
 
@@ -40,9 +40,10 @@ class htmlFilter {
                 return istr
             })
 
-            let ary = arg.replace(/"|'/g, '').split(',')
+            let ary = arg.split(',')
 
             for (let s = 0; s < ary.length; s++) {
+                ary[s] = ary[s].replace(/^("|')|("|')$/g, '')
                 if (args[ary[s]]) {
                     ary[s] = eval(`(${args[ary[s]]})`)
                 }

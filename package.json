@@ -16,7 +16,7 @@
         "build:test": "cross-env NODE_ENV=test gulp build",
         "build:pre": "cross-env NODE_ENV=pre gulp build",
         "build:ga": "cross-env NODE_ENV=ga gulp build",
-        "pm2:start": "cross-env NODE_ENV=ga pm2 start pm2.conf.json",
+        "pm2:start": "cross-env NODE_ENV=ga pm2 start  pm2.conf.json --interpreter babel-node",
         "pm2:start:dev": "cross-env NODE_ENV=dev pm2 start pm2.conf.json",
         "pm2:start:test": "cross-env NODE_ENV=test pm2 start pm2.conf.json",
         "pm2:start:pre": "cross-env NODE_ENV=pre pm2 start pm2.conf.json",
@@ -38,6 +38,7 @@
     "dependencies": {
         "@stl/request": "^1.2.8",
         "@stl/tool-ts": "^1.0.10",
+        "babel-node": "0.0.1-security",
         "cross-env": "^7.0.2",
         "crypto": "^1.0.1",
         "debug": "^4.1.1",
@@ -75,6 +76,7 @@
         "xss": "^1.0.8"
     },
     "devDependencies": {
+        "@types/mime": "^2.0.3",
         "@types/bluebird": "^3.5.32",
         "@types/debug": "^4.1.5",
         "@types/fs-extra": "^9.0.1",

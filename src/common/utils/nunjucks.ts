@@ -136,7 +136,7 @@ async function getWUCHtml(str:string):Promise<string>{
         let strs ='@{@'+i+'@}@'
         data.push({
             reg: $1,
-            funStr: $2,
+            funStr: $2.trim(),
             indexStr: strs
         })
         //  str = str.replace($1, strs)

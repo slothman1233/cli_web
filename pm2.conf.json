@@ -11,11 +11,18 @@
             "dist",
             "coverage"
         ],
+        "env": {
+            "NODE_ENV": "ga"
+        },
         "instances": 1,
         "interpreter": "../node_modules/.bin/ts-node",
         "error_file": "./logs/pm2/err.log",
         "out_file": "./logs/pm2/out.log",
         "log_date_format": "YYYY-MM-DD HH:mm:ss",
-        "merge_logs": true
+        "merge_logs": true,
+        "restart_delay": "60s",
+        "min_uptime": "60s",
+        "exec_mode": "cluster_mode",
+        "cron_restart": "0 4 * * 0"
     }
 }

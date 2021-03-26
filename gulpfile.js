@@ -29,6 +29,7 @@ function tostaticfile() {
 function topm2config() {
     return src(['pm2.conf.json'])
         .pipe(replace('src/bin/www.ts', `bin/www.js`))
+        .pipe(replace('NODE_ENV=ga', `NODE_ENV=${ENV}`))
         .pipe(replace(`"interpreter": "./node_modules/.bin/ts-node",`, ``))
         .pipe(dest('dist'))
 }

@@ -5,6 +5,39 @@
 import path from 'path'
 import { nunjucksEVN } from '../utils/nunjucks'
 import htmlMinifier from 'html-minifier'
+import nunjucks from 'nunjucks'
+import env from '../config/env'
+import filters from './filter'
+import { isAsync } from '../utils/type_check'
+/**
+ * 把环境变量赋值给 nunjucks 框架当做 nunjucks 的全局变量
+ */
+
+let evn
+
+export const constant = (nunjucksEVN: nunjucks.Environment) => {
+    evn = nunjucksEVN
+    for (let item in env) {
+        nunjucksEVN.addGlobal(item, env[item])
+    }
+}
+
+
+
+
+/**
+ * nunjucks 过滤器初始化
+ */
+export const filter = (nunjucksEVN: nunjucks.Environment) => {
+    Object.keys(filters).forEach(key => {
+        nunjucksEVN.addFilter(key, filters[key], isAsync(filters[key]))
+    })
+
+}
+
+
+
+
 
 /**
  *通过文件地址跟参数获取编译后的html代码
@@ -13,8 +46,6 @@ import htmlMinifier from 'html-minifier'
  */
 export const nunRender = (filepath: string, optins: any) => {
     if (!filepath) { return null }
-
-
     let html = htmlMinifier.minify(
         nunjucksEVN.render(path.resolve(__dirname, '..', '..', filepath), Object.assign({}, optins)),
         {
@@ -32,9 +63,6 @@ export const nunRender = (filepath: string, optins: any) => {
  */
 export const nunRenderString = (str: string, optins: any) => {
     if (!str) { return null }
-
-
-
     let html = htmlMinifier.minify(
         nunjucksEVN.renderString(str, Object.assign({}, optins)),
         {

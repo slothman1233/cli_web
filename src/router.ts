@@ -8,6 +8,7 @@ import Router from 'koa-router'
 import { Context, Next } from 'koa'
 import log from './middleware/log4js/log'
 import { isDir } from './common/utils/file'
+import koaCompose from 'koa-compose'
 const modules: any[] = []
 /**
  * 路由的初始化
@@ -15,41 +16,22 @@ const modules: any[] = []
  */
 const addRouter = async (router: Router) => {
     const ctrPath = path.join(__dirname, 'routes')
+    //扫描controller文件夹，收集所有controller
     await fileScan(ctrPath)
-    // const modules: ObjectConstructor[] = []
-    // // 扫描controller文件夹，收集所有controller
-    // fs.readdirSync(ctrPath).forEach(name => {
-    //     console.log(name)
-    //     if (/^[^.]+\.(t|j)s$/.test(name)) {
-    //         const module = require(path.join(ctrPath, name)).default
-    //         if (module) { modules.push(module) }
-    //     }
-    // })
+
     // 结合meta数据添加路由 和 验证
     modules.forEach(items => {
-
         let m = items[0]
-
         let ControllerPath = Reflect.getMetadata(CONTROLLER_PATH_METADATA, m) || items[1].replace(/\\/g, '/') || ''
-
-
-
         ControllerPath = ControllerPath !== '' ? sprit(ControllerPath) : ''
-        console.log(ControllerPath)
         let middlewares = Reflect.getMetadata(MIDDLEWARE, m) || ''
-
-
         const RouteMap: Array<RouteMeta> = Reflect.getMetadata(ROUTER_META, m)
-
         RouteMap.map(item => {
             const { name, path: ActionPath, method } = item
             const ctr = new m()
             const RoutePath = ControllerPath + sprit(ActionPath)
             let methods: Array<any> = middlewares[name] || []
-            router[method](RoutePath, middlewareFn(methods), ctr[name])
-
-
-
+            router[method](RoutePath, koaCompose(methods), ctr[name])
         })
 
     })
@@ -59,7 +41,6 @@ const addRouter = async (router: Router) => {
 
 async function fileScan(filepath: string) {
     let fileArg: string[] = fs.readdirSync(filepath)
-
     for (let i = 0; i < fileArg.length; i++) {
         let name = fileArg[i]
         let paths = path.join(filepath, name)
@@ -83,11 +64,12 @@ function middlewareFn(methods: Array<Function>) {
     let fnAry = methods
     let ctx: Context
     let next: Next
-
+    let index: number
 
     return async function (ctxs: Context, nexts: Next) {
         ctx = ctxs
         next = nexts
+        index = 0
         try {
             await nextFn()
         } catch (err) {
@@ -99,12 +81,14 @@ function middlewareFn(methods: Array<Function>) {
     }
 
     //递归执行方法
+
     async function nextFn() {
 
-        if (fnAry.length === 0) {
+        if (fnAry.length < index + 1) {
             await next()
         } else {
-            const fn = fnAry.shift()
+            const fn = fnAry[index]
+            index++
             //判断是否是方法如果不是则跳过
             if (typeof fn !== 'function') {
                 nextFn()

@@ -75,8 +75,7 @@ npm run docker  -----  在docker下运行
 │   │   ├── decorator  装饰器文件夹
 │   │   │   └── httpMethod.ts   路由装饰器
 │   │   ├── nunjucks  装饰器文件夹
-│   │   │   ├── constant.ts   全局静态配置
-│   │   │   ├── filter.ts   过滤器
+│   │   │   ├── filter.ts   过滤器配置
 │   │   │   └── index.ts    编译html代码插件
 │   │   ├── type  全局的类型文件夹
 │   │   │   └── type.d.ts   类型文件包含一些  路由模型类型 中间件的模型 等全局需要用到的
@@ -85,6 +84,7 @@ npm run docker  -----  在docker下运行
 │   │       ├── env.ts   各种环境判断
 │   │       ├── net.ts   http请求的工具类
 │   │       ├── type_check.ts   类型判断工具类
+│   │       ├── CacheBreakdown.ts   防止缓存击穿的方法
 │   │       └── util.ts   常用的工具
 │   ├── controller  用于处理逻辑的文件夹
 │   ├── db  用于跟数据库对接的文件

@@ -112,7 +112,7 @@ if (notJest) {
             await next()
             //记录响应日志
             ms = Date.now() - start
-            log.info(ctx, ms)
+            // log.info(ctx, ms)
         } catch (error) {
             //记录异常日志
             ms = Date.now() - start
@@ -155,7 +155,7 @@ app.use(json())
 // extensions -- URL 中没有扩展名时，尝试匹配传递的数组中的扩展名以搜索文件。首先找到的是送达。（默认为false）
 
 app.use(koaStatic(__dirname + '/wwwroot', {
-    maxage: 1000 * 10,
+    maxage: isDev ? 0 : 1000 * 10,
     index: false,
     gzip: true
 

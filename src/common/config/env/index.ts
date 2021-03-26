@@ -28,6 +28,10 @@ if (isTest) {
 }
 
 
+config.dataCahce = {
+    
+}
+
 
 export default config
 

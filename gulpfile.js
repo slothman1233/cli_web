@@ -1,11 +1,10 @@
-//watch,
 const { src, dest, series, task } = require('gulp')
 const del = require('del')
 const ts = require('gulp-typescript')
 const nodemon = require('gulp-nodemon')
 const replace = require('gulp-replace')
 const tsProject = ts.createProject('tsconfig.json')
-const ENV = process.env.NODE_ENV
+const ENV = process.env.NODE_ENV || 'ga'
 
 
 
@@ -22,22 +21,31 @@ function toJs() {
 
 
 function tostaticfile() {
-
     return src(['package.json'])
         .pipe(replace('NODE_ENV=ga', `NODE_ENV=${ENV}`))
         .pipe(dest('dist'))
 }
 
-// function tostaticwwwroot(){
-//     return src(['src/wwwroot/**/*'])
-//         .pipe(dest('dist/wwwroot'))
-// }
+function topm2config() {
+    return src(['pm2.conf.json'])
+        .pipe(replace('src/bin/www.ts', `bin/www.js`))
+        .pipe(replace('NODE_ENV=ga', `NODE_ENV=${ENV}`))
+        .pipe(replace(`"interpreter": "./node_modules/.bin/ts-node",`, ``))
+        .pipe(dest('dist'))
+}
+
+function tostaticwwwroot() {
+    return src(['src/wwwroot/assets/**/*', 'src/wwwroot/dist/**/*'])
+        .pipe(dest('dist/wwwroot'))
+}
 
 
-function tostaticviews(){
+function tostaticviews() {
     return src(['src/views/**/*'])
         .pipe(dest('dist/views'))
 }
+
+
 
 
 // nodemon 监控 ts 文件
@@ -61,7 +69,7 @@ function runNodemon(done) {
     })
 }
 
-const build = series(clean, toJs, tostaticfile, tostaticviews)
+const build = series(clean, toJs, tostaticfile, tostaticviews, topm2config, tostaticwwwroot)
 task('build', build)
 task('default', runNodemon)
 exports.build = build

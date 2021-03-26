@@ -1,5 +1,3 @@
-
-
 /**
  * 添加 nunjucks 过滤器
  */
@@ -32,7 +30,7 @@ export default {
         } else {
             return str
         }
-    }
+    },
 
 }
 

@@ -11,9 +11,10 @@
             "dist",
             "coverage"
         ],
-        "instances": 1,
+        "instances": "max",
         "error_file": "./logs/pm2/err.log",
         "out_file": "./logs/pm2/out.log",
+        "pid_file": "./logs/pm2/pid.log",
         "log_date_format": "YYYY-MM-DD HH:mm:ss",
         "merge_logs": true
     }

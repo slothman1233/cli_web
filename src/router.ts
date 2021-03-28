@@ -8,6 +8,7 @@ import Router from 'koa-router'
 import { Context, Next } from 'koa'
 import log from './middleware/log4js/log'
 import { isDir } from './common/utils/file'
+import koaCompose from 'koa-compose'
 const modules: any[] = []
 /**
  * 路由的初始化
@@ -30,7 +31,7 @@ const addRouter = async (router: Router) => {
             const ctr = new m()
             const RoutePath = ControllerPath + sprit(ActionPath)
             let methods: Array<any> = middlewares[name] || []
-            router[method](RoutePath, middlewareFn(methods), ctr[name])
+            router[method](RoutePath, koaCompose(methods), ctr[name])
         })
 
     })

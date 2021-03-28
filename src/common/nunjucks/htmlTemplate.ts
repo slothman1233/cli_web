@@ -11,7 +11,7 @@ class htmlFilter {
             let that = this
             let arg: any[] = []
             let funName = funStr.replace(/\((.*)\)/g, function ($1: string, $2: string) {
-                arg = that.argFunc($2)
+                arg = that.argFunc($2.trim())
                 return ''
             })
 

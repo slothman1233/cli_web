@@ -15,11 +15,12 @@ import { filter, constant } from '../nunjucks/index'
 import { COPYFILE_EXCL } from 'constants'
 
 import stringify from 'fast-json-stringify'
+import hFilter from '../nunjucks/htmlTemplate'
 
 import hFilter from '../nunjucks/htmlTemplate'
 
-
 const hf = hFilter
+
 type paramsModel = {
     ext?: string, //文件后缀
     path?: string //文件夹全路径
@@ -114,6 +115,8 @@ export default (params: paramsModel) => {
                 }
             )
 
+            html = await getWUCHtml(html)
+
 
             ctx.body = html
         }
@@ -125,18 +128,19 @@ export default (params: paramsModel) => {
 }
 
 
+
 //获取部分页的html处理
-async function getWUCHtml(str: string): Promise<string> {
-    let data: any[] = []
-    let i = 0
-    str = str.replace(/{@{(.*?)}@}/ig, function ($1: string, $2: string): string {
-        let strs = '@{@' + i + '@}@'
+async function getWUCHtml(str:string):Promise<string>{
+    let data:any[] = []
+    let i =0
+    str = str.replace(/{@{(.*?)}@}/ig, function($1:string, $2:string):string{
+        let strs ='@{@'+i+'@}@'
         data.push({
             reg: $1,
-            funStr: $2,
+            funStr: $2.trim(),
             indexStr: strs
         })
-        // str = str.replace($1, strs)
+        //  str = str.replace($1, strs)
         i++
         return strs
     })

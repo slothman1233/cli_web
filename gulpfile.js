@@ -39,6 +39,10 @@ function tostaticwwwroot() {
         .pipe(dest('dist/wwwroot'))
 }
 
+function tostaticwwwroot() {
+    return src(['src/wwwroot/assets/**/*', 'src/wwwroot/dist/**/*'])
+        .pipe(dest('dist/wwwroot'))
+}
 
 function tostaticviews() {
     return src(['src/views/**/*'])

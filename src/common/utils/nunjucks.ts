@@ -17,7 +17,6 @@ import { COPYFILE_EXCL } from 'constants'
 import stringify from 'fast-json-stringify'
 import hFilter from '../nunjucks/htmlTemplate'
 
-
 const hf = hFilter
 
 type paramsModel = {
@@ -56,8 +55,8 @@ export const nunjucksEVN = new nunjucks.Environment(
 
     new nunjucks.FileSystemLoader(path.join(__dirname, '..', '..', 'views'), {
         watch: true,
-        //noCache: !!isDev ? true : false//如果为 true，不使用缓存，模板每次都会重新编译。
-        noCache: false
+        noCache: !!isDev ? true : false//如果为 true，不使用缓存，模板每次都会重新编译。
+        // noCache: false
     }),
     {
         throwOnUndefined: false,

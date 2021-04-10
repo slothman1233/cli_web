@@ -7,9 +7,15 @@
         "ecmaVersion": 2020,
         "sourceType": "module"
     },
+    "globals":{
+        "document": true,
+        "localStorage": true,
+        "window": true
+      },
     "env": {
         "es6": true,
         "commonjs": true,
+        "browser": true,
         "node": true
     },
     // 0或’off’：关闭规则。
